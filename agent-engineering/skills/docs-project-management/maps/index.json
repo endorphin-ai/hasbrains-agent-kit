@@ -1,0 +1,68 @@
+{
+  "version": "1.1",
+  "notes": [
+    {
+      "id": "work-item-taxonomy",
+      "path": "references/work-item-taxonomy.md",
+      "title": "Work-Item Taxonomy (WHERE each item lives)",
+      "summary": "The docs/ subfolder + filename pattern + owning role for every document type — Project brief, Project config, Roadmap, PRD, TRD, Epic, User Story, Bug, Test Case, Session reports, Feature log.",
+      "tags": ["docs-pm/taxonomy", "docs-pm/model"],
+      "tokens_est": 620,
+      "load_when": "When you need to know WHERE a work item lives, what to name its file, or which role owns it."
+    },
+    {
+      "id": "link-graph",
+      "path": "references/link-graph.md",
+      "title": "The Link Graph (relative-markdown links)",
+      "summary": "Every work-item relationship as a labelled, bidirectional relative-markdown link; Test Case is-tested-by User Story, Bug blocks its story, PRD↔TRD.",
+      "tags": ["docs-pm/links", "docs-pm/model"],
+      "tokens_est": 550,
+      "load_when": "When linking two work items, or checking which relationship semantic and direction to write."
+    },
+    {
+      "id": "status-lifecycle",
+      "path": "references/status-lifecycle.md",
+      "title": "Status Lifecycle + the Bookend Rule (docs/-native)",
+      "summary": "The frontmatter status lifecycle, the bookend rule (transition forward before + after work), required frontmatter fields, and the passport signature.",
+      "tags": ["docs-pm/status", "docs-pm/frontmatter", "docs-pm/model"],
+      "tokens_est": 700,
+      "load_when": "When starting or finishing work on a work item, setting its status, or filling required frontmatter fields."
+    },
+    {
+      "id": "test-case-template",
+      "path": "references/test-case-template.md",
+      "title": "The Test Case Template (mandatory)",
+      "summary": "The mandatory field-by-field shape every docs/test_cases/ file must follow, plus its required is-tested-by link to the User Story.",
+      "tags": ["docs-pm/test-case", "docs-pm/model"],
+      "tokens_est": 430,
+      "load_when": "When authoring or reviewing a Test Case file in docs/test_cases/."
+    },
+    {
+      "id": "bug-rca-report",
+      "path": "references/bug-rca-report.md",
+      "title": "The RCA Bug Report (the docs/bugs/ Bug format)",
+      "summary": "The canonical RCA-rich docs/bugs/ Bug format — metadata + Symptom/Reproduction + Fix(GitHub) + files-touched diff + 5-Whys RCA; the finder authors at detection, the dev completes the fix sections in the SAME file.",
+      "tags": ["docs-pm/bugs", "docs-pm/model", "docs-pm/rca"],
+      "tokens_est": 900,
+      "load_when": "When authoring or completing a docs/bugs/ Bug file — the detection-time write-up or a dev recording its fix."
+    },
+    {
+      "id": "session-reporting",
+      "path": "references/session-reporting.md",
+      "title": "Team Work-Reporting / Session Work Folder (docs/sessions/) + Feature Log",
+      "summary": "The per-session work folder, the start/finish report bookend, build-brain organization, the report schema, role sections, and the per-feature work-log (docs/reports/feature-log/<slug>.md split files + the docs/reports/feature-log.md lean index).",
+      "tags": ["docs-pm/reporting", "docs-pm/sessions", "docs-pm/model"],
+      "tokens_est": 1665,
+      "load_when": "When bookending your run as a report, organizing a session folder or agent-memory, or filling the feature log."
+    },
+    {
+      "id": "conventions-recap",
+      "path": "references/conventions-recap.md",
+      "title": "Conventions Recap (the non-negotiables) + Knowledge Strategy",
+      "summary": "The single checklist of docs/-native non-negotiables (incl. the docs/ vs .ai_log/ split), plus the knowledge-capture and update-permission strategy for this skill.",
+      "tags": ["docs-pm/checklist", "docs-pm/strategy", "docs-pm/model"],
+      "tokens_est": 520,
+      "load_when": "When you want a one-glance checklist of the docs/-native rules, or the rules for updating this skill."
+    }
+  ]
+}

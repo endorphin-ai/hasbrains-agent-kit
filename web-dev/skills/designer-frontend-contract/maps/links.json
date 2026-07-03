@@ -1,0 +1,9 @@
+{
+  "contract-and-communication": ["designer-handoff", "frontend-port", "design-diff", "baseline-and-oracle"],
+  "designer-handoff": ["contract-and-communication", "baseline-and-oracle", "frontend-port", "region-census"],
+  "frontend-port": ["contract-and-communication", "region-census", "fidelity-checks", "designer-handoff"],
+  "design-diff": ["baseline-and-oracle", "region-census", "fidelity-checks", "contract-and-communication", "frontend-port"],
+  "region-census": ["fidelity-checks", "design-diff", "frontend-port", "baseline-and-oracle", "contract-and-communication", "designer-handoff"],
+  "baseline-and-oracle": ["design-diff", "fidelity-checks", "designer-handoff", "region-census"],
+  "fidelity-checks": ["design-diff", "region-census", "baseline-and-oracle", "frontend-port"]
+}

@@ -1,0 +1,68 @@
+{
+  "version": "2.0",
+  "notes": [
+    {
+      "id": "contract-and-communication",
+      "path": "references/contract-and-communication.md",
+      "title": "The designer ↔ frontend contract — artifacts, storage, communication, and the data-test three-way",
+      "summary": "The contract itself — what each side owes the other, the shared artifact/link graph, where every piece of data lives (docs/design/ library, docs/frontend/ KB, .ai_log/ evidence, pipeline-state paths), the communication protocol (handoff timing, ask-don't-guess, findings routing, deviations ledger, refresh loop), and the three-way data-test hook contract with QE.",
+      "tags": ["contract/roles", "contract/storage", "contract/communication", "contract/handoff"],
+      "tokens_est": 1600,
+      "load_when": "Deciding where an artifact lives, how the two roles hand off, who to ask or route a finding to, or what each side owes the other."
+    },
+    {
+      "id": "designer-handoff",
+      "path": "workflows/designer-handoff.md",
+      "title": "PRODUCER — freeze the approved mockup into the canonical oracle + write the acceptance contract",
+      "summary": "The designer's handoff playbook: freeze the approved mockup (pin widths, self-host fonts, snapshot baseline renders), register it in oracle-manifest.json, emit the region/element inventory with data-test hooks, declare token parity on the project's single styling source, write the four-part visual acceptance contract, hand off PATHS.",
+      "tags": ["contract/producer", "contract/freeze", "contract/handoff"],
+      "tokens_est": 1150,
+      "load_when": "An approved mockup must become a measurable build target the frontend is held to."
+    },
+    {
+      "id": "frontend-port",
+      "path": "workflows/frontend-port.md",
+      "title": "CONSUMER — consume the acceptance contract, port the oracle 1:1, self-gate census→DOM→pixel",
+      "summary": "The frontend dev's playbook: read the six binding inputs, verify token parity, PASS A static 1:1 transcription, PASS B interactivity without DOM change, self-gate census→DOM→pixel per component and assembled page/state, prove interactions, report evidence + docs/frontend/ KB write-back + deviations ledger.",
+      "tags": ["contract/consumer", "contract/port", "contract/self-gate"],
+      "tokens_est": 1300,
+      "load_when": "Building or fixing a page that has a frozen oracle + a visual acceptance contract."
+    },
+    {
+      "id": "design-diff",
+      "path": "workflows/design-diff.md",
+      "title": "VERIFIER — screenshot the built pages and diff against the approved oracle (report-only)",
+      "summary": "End-to-end design-diff run: resolve the oracle via the manifest, capture the RUNNING app post-settle per page × access state × pinned breakpoint, census FIRST, pixel-diff vs the frozen baseline, rule-check tokens/60-30-10/8pt, hit-test interactions, emit per-page PASS/FAIL + a gate verdict. Report-only; findings routed.",
+      "tags": ["contract/verifier", "contract/design-diff", "contract/gate"],
+      "tokens_est": 1200,
+      "load_when": "Verifying built pages against the approved design (the pipeline verify gate, the fan-out audit's visual finder, or an ad-hoc pass)."
+    },
+    {
+      "id": "region-census",
+      "path": "references/region-census.md",
+      "title": "The region/element completeness census — the FIRST check (catches whole-missing sections)",
+      "summary": "How to census a built page against the oracle's region/element inventory BEFORE any pixel diff — build the oracle list, walk the built DOM, tick each region/element off by data-test hook, FAIL on any missing/reordered/extra region. Run by BOTH the frontend self-gate and the verifier; needs no pixel baseline.",
+      "tags": ["contract/census", "contract/checks", "contract/completeness"],
+      "tokens_est": 950,
+      "load_when": "Gating a page against the oracle; a whole section may be missing; the pixel diff looks fine but the page feels incomplete; no baseline exists."
+    },
+    {
+      "id": "baseline-and-oracle",
+      "path": "references/baseline-and-oracle.md",
+      "title": "The oracle + establishing/refreshing a baseline (incl. the design-phase-skipped migration case)",
+      "summary": "What the design oracle is (frozen renderable mockup = pixel oracle; design-tokens + design-system = rule oracle), how to resolve it per page/state via oracle-manifest.json, canvas-export de-framing, and how to ESTABLISH a baseline when none exists or REFRESH one when the design legitimately changed.",
+      "tags": ["contract/oracle", "contract/baseline", "contract/migration"],
+      "tokens_est": 1000,
+      "load_when": "Resolving/refreshing the baseline; no oracle exists yet for a page; the design legitimately changed; a design-phase-skipped migration run."
+    },
+    {
+      "id": "fidelity-checks",
+      "path": "references/fidelity-checks.md",
+      "title": "Fidelity checks + thresholds — completeness, layout, spacing (8pt), color (60/30/10 + tokens), type, DOM, interactions",
+      "summary": "The measurable checks both the frontend self-gate and the verifier run — completeness census (first), layout, spacing on the 8pt grid, color against palette + 60/30/10 + token conformance against the project's declared token source, type, DOM-structure preservation, and broken/obscured-interaction hit-testing — plus the severity model and the PASS/FAIL rule.",
+      "tags": ["contract/checks", "contract/thresholds", "contract/tokens"],
+      "tokens_est": 1150,
+      "load_when": "Deciding what to measure on a page; classifying a diff as PASS/FAIL; setting/holding the drift threshold; explaining a failing diff."
+    }
+  ]
+}

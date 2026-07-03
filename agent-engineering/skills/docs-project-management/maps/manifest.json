@@ -1,0 +1,8 @@
+{
+  "source": ".claude/skills/docs-project-management",
+  "source_type": "existing-skill",
+  "built_at": "2026-06-27T00:00:00Z",
+  "version": "1.0",
+  "counts": { "notes": 7, "tags": 12, "links": 26 },
+  "tokens": { "skill_md": 1075, "index_json": 760, "references_total": 5188 }
+}

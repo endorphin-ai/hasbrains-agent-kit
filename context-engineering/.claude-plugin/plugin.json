@@ -1,0 +1,9 @@
+{
+  "name": "context-engineering",
+  "version": "1.1.0",
+  "description": "Context engineering for AI agents — AI-optimized second-brain skills, durable pipeline state for multi-agent handoffs, and expert prompt building.",
+  "author": { "name": "Andrew Novykov", "url": "https://github.com/andrewnovykov" },
+  "repository": "https://github.com/endorphin-ai/hasbrains-agent-kit",
+  "license": "MIT",
+  "keywords": ["claude-code", "context-engineering", "claude-md", "memory", "context-window", "prompt-engineering"]
+}

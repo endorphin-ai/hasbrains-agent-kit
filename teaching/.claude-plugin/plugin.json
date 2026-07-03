@@ -1,7 +1,7 @@
 {
   "name": "teaching",
   "version": "1.1.0",
-  "description": "Interactive AI teaching pipeline — /teach-me with adaptive lessons, persistent student model, quiz mode, and course generation from repos or docs.",
+  "description": "Interactive AI teaching pipeline — /repo-to-course turns any codebase into a structured tutorial course (markdown, GitHub Pages site, or interactive HTML).",
   "author": { "name": "Andrew Novykov", "url": "https://github.com/andrewnovykov" },
   "repository": "https://github.com/endorphin-ai/hasbrains-agent-kit",
   "license": "MIT",

@@ -1,0 +1,29 @@
+{
+  "skill": "designer-frontend-contract",
+  "version": "2.0",
+  "kind": "second-brain",
+  "entry": "SKILL.md",
+  "maps": {
+    "index": "maps/index.json",
+    "tags": "maps/tags.json",
+    "links": "maps/links.json"
+  },
+  "companions": ["FORMAT.md", "VOICE.md"],
+  "workflows": ["workflows/designer-handoff.md", "workflows/frontend-port.md", "workflows/design-diff.md"],
+  "references": ["references/contract-and-communication.md", "references/region-census.md", "references/baseline-and-oracle.md", "references/fidelity-checks.md"],
+  "roles": {
+    "producer_owner": "the designer agent",
+    "verify_path": "the architect agent (verify mode)",
+    "consumer": "the frontend dev agent"
+  },
+  "current_project_bindings": {
+    "note": "Descriptive nav metadata for THIS repo's rosters only — the skill body uses roles; retargeting another squad means changing these bindings, never the skill body (R14).",
+    "owner_agents": ["webdesigner-phx", "webdesigner-ror"],
+    "verify_path_agents": ["architect-phx", "architect-ror"],
+    "consumer_agents": ["frontend-phx", "frontend-ror"]
+  },
+  "supersedes": ["design-diff-phx", "design-diff-ror"],
+  "stack_facts_source": "docs/project_config/info.md#{config.frontend_runtime}",
+  "note_count": 7,
+  "generated_by": "claude-fable-5 (designer-frontend-contract unification)"
+}

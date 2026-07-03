@@ -14,6 +14,7 @@ Then install only what you need:
 
 ```
 /plugin install agent-engineering@hasbrains-agent-kit
+/plugin install context-engineering@hasbrains-agent-kit
 /plugin install content-creation@hasbrains-agent-kit
 /plugin install teaching@hasbrains-agent-kit
 /plugin install web-dev@hasbrains-agent-kit
@@ -45,10 +46,11 @@ cp -r teaching/skills/<skill-name> ~/.claude/skills/
 
 | Plugin | What it does |
 |---|---|
-| [`agent-engineering`](agent-engineering) | Build, decouple, and reverse-engineer agent systems. Reverse-blueprint any repo into a rebuild plan, refactor agents to be stack-agnostic, package reusable build recipes. |
-| [`content-creation`](content-creation) | Content engine for technical creators. Social posts built on named copywriting frameworks, transcript restyling in two distinct voices, YouTube SEO strategy. |
-| [`teaching`](teaching) | Interactive AI teacher. Adaptive lessons, persistent student model, quiz mode, full course generation from repos or documentation. |
-| [`web-dev`](web-dev) | Multi-agent web dev pipeline. Design agent produces HTML mockups, conversion agent ports them with pixel-perfect fidelity, Playwright + pixelmatch visual regression gate. |
+| [`agent-engineering`](agent-engineering) | Engineering discipline for AI agent systems. Four always-on principles, test-driven development, verification-before-completion, system-architecture playbooks, docs/-native project management. |
+| [`context-engineering`](context-engineering) | Context engineering for AI agents. AI-optimized second-brain skills, durable pipeline state for multi-agent handoffs, expert prompt building. |
+| [`content-creation`](content-creation) | Content engine for technical creators. Social posts and video scripts engineered around named copywriting frameworks, scroll-stopping hooks, and retention mechanics. |
+| [`teaching`](teaching) | Interactive AI teacher. `/repo-to-course` turns any codebase into a structured tutorial course — markdown, GitHub Pages site, or interactive HTML. |
+| [`web-dev`](web-dev) | Multi-agent web dev pipeline. The designer ↔ frontend contract: freeze approved mockups into a canonical oracle, port them 1:1 on any stack, verify with screenshot-based design-diff gates. |
 
 ## Using the prompts
 

@@ -8,25 +8,31 @@
     {
       "name": "agent-engineering",
       "source": "./agent-engineering",
-      "description": "Build, decouple, and reverse-engineer Claude Code agent systems — reverse-blueprint, /agent-decouple, cookbook recipes, and multi-agent orchestration workflows.",
+      "description": "Engineering discipline for AI agent systems — four always-on principles, test-driven development, verification-before-completion, system-architecture playbooks, and docs/-native project management.",
+      "category": "development"
+    },
+    {
+      "name": "context-engineering",
+      "source": "./context-engineering",
+      "description": "Context engineering for AI agents — AI-optimized second-brain skills, durable pipeline state for multi-agent handoffs, and expert prompt building.",
       "category": "development"
     },
     {
       "name": "content-creation",
       "source": "./content-creation",
-      "description": "Content engine for technical creators — social media writing with named copywriting frameworks, transcript restyling (tutorial + tech-news voices), and YouTube SEO strategy.",
+      "description": "Content engine for technical creators — social posts and video scripts engineered around named copywriting frameworks, scroll-stopping hooks, and retention mechanics.",
       "category": "content"
     },
     {
       "name": "teaching",
       "source": "./teaching",
-      "description": "Interactive AI teaching pipeline — /teach-me with adaptive lessons, persistent student model, quiz mode, and course generation from repos or docs.",
+      "description": "Interactive AI teaching pipeline — /repo-to-course turns any codebase into a structured tutorial course (markdown, GitHub Pages site, or interactive HTML).",
       "category": "education"
     },
     {
       "name": "web-dev",
       "source": "./web-dev",
-      "description": "Multi-agent web dev pipeline — HTML design agent, framework conversion with pixel-perfect fidelity, and Playwright + pixelmatch visual regression gates.",
+      "description": "Multi-agent web dev pipeline — the designer ↔ frontend contract: freeze approved mockups into a canonical oracle, port them 1:1 on any stack, and verify with screenshot-based design-diff gates.",
       "category": "development"
     }
   ]

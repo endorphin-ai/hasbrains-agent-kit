@@ -1,0 +1,9 @@
+{
+  "work-item-taxonomy": ["conventions-recap", "link-graph", "status-lifecycle"],
+  "link-graph": ["status-lifecycle", "test-case-template", "work-item-taxonomy"],
+  "status-lifecycle": ["conventions-recap", "link-graph", "session-reporting", "work-item-taxonomy"],
+  "test-case-template": ["conventions-recap", "link-graph", "status-lifecycle", "work-item-taxonomy"],
+  "bug-rca-report": ["conventions-recap", "link-graph", "status-lifecycle", "work-item-taxonomy"],
+  "session-reporting": ["conventions-recap", "status-lifecycle", "work-item-taxonomy"],
+  "conventions-recap": ["link-graph", "session-reporting", "status-lifecycle", "test-case-template", "work-item-taxonomy"]
+}

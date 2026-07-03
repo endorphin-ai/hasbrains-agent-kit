@@ -1,7 +1,7 @@
 {
   "name": "agent-engineering",
-  "version": "1.0.0",
-  "description": "Build, decouple, and reverse-engineer Claude Code agent systems — reverse-blueprint, /agent-decouple, cookbook recipes, and multi-agent orchestration workflows.",
+  "version": "1.1.0",
+  "description": "Engineering discipline for AI agent systems — four always-on principles, test-driven development, verification-before-completion, system-architecture playbooks, and docs/-native project management.",
   "author": { "name": "Andrew Novykov", "url": "https://github.com/andrewnovykov" },
   "repository": "https://github.com/endorphin-ai/hasbrains-agent-kit",
   "license": "MIT",

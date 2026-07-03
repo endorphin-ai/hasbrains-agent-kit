@@ -1,0 +1,14 @@
+{
+  "docs-pm/model": ["work-item-taxonomy", "link-graph", "status-lifecycle", "test-case-template", "bug-rca-report", "session-reporting", "conventions-recap"],
+  "docs-pm/taxonomy": ["work-item-taxonomy"],
+  "docs-pm/links": ["link-graph"],
+  "docs-pm/status": ["status-lifecycle"],
+  "docs-pm/frontmatter": ["status-lifecycle"],
+  "docs-pm/test-case": ["test-case-template"],
+  "docs-pm/bugs": ["bug-rca-report"],
+  "docs-pm/rca": ["bug-rca-report"],
+  "docs-pm/reporting": ["session-reporting"],
+  "docs-pm/sessions": ["session-reporting"],
+  "docs-pm/checklist": ["conventions-recap"],
+  "docs-pm/strategy": ["conventions-recap"]
+}

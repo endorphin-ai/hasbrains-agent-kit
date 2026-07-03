@@ -1,0 +1,22 @@
+{
+  "contract/roles": ["contract-and-communication"],
+  "contract/storage": ["contract-and-communication"],
+  "contract/communication": ["contract-and-communication"],
+  "contract/handoff": ["contract-and-communication", "designer-handoff"],
+  "contract/producer": ["designer-handoff"],
+  "contract/freeze": ["designer-handoff"],
+  "contract/consumer": ["frontend-port"],
+  "contract/port": ["frontend-port"],
+  "contract/self-gate": ["frontend-port"],
+  "contract/verifier": ["design-diff"],
+  "contract/design-diff": ["design-diff"],
+  "contract/gate": ["design-diff"],
+  "contract/oracle": ["baseline-and-oracle"],
+  "contract/baseline": ["baseline-and-oracle"],
+  "contract/migration": ["baseline-and-oracle"],
+  "contract/checks": ["fidelity-checks", "region-census"],
+  "contract/thresholds": ["fidelity-checks"],
+  "contract/tokens": ["fidelity-checks"],
+  "contract/census": ["region-census"],
+  "contract/completeness": ["region-census"]
+}
