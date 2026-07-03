@@ -1,0 +1,9 @@
+{
+  "name": "teaching",
+  "version": "1.1.0",
+  "description": "Interactive AI teaching pipeline — /teach-me with adaptive lessons, persistent student model, quiz mode, and course generation from repos or docs.",
+  "author": { "name": "Andrew Novykov", "url": "https://github.com/andrewnovykov" },
+  "repository": "https://github.com/endorphin-ai/hasbrains-agent-kit",
+  "license": "MIT",
+  "keywords": ["claude-code", "teaching", "learning", "tutorials", "education", "courses"]
+}

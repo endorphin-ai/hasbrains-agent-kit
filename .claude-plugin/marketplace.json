@@ -1,0 +1,33 @@
+{
+  "name": "hasbrains-agent-kit",
+  "owner": { "name": "Andrew Novykov", "url": "https://github.com/andrewnovykov" },
+  "metadata": {
+    "description": "Production Claude Code skills, agents & commands behind HasBrainsAI"
+  },
+  "plugins": [
+    {
+      "name": "agent-engineering",
+      "source": "./agent-engineering",
+      "description": "Build, decouple, and reverse-engineer Claude Code agent systems — reverse-blueprint, /agent-decouple, cookbook recipes, and multi-agent orchestration workflows.",
+      "category": "development"
+    },
+    {
+      "name": "content-creation",
+      "source": "./content-creation",
+      "description": "Content engine for technical creators — social media writing with named copywriting frameworks, transcript restyling (tutorial + tech-news voices), and YouTube SEO strategy.",
+      "category": "content"
+    },
+    {
+      "name": "teaching",
+      "source": "./teaching",
+      "description": "Interactive AI teaching pipeline — /teach-me with adaptive lessons, persistent student model, quiz mode, and course generation from repos or docs.",
+      "category": "education"
+    },
+    {
+      "name": "web-dev",
+      "source": "./web-dev",
+      "description": "Multi-agent web dev pipeline — HTML design agent, framework conversion with pixel-perfect fidelity, and Playwright + pixelmatch visual regression gates.",
+      "category": "development"
+    }
+  ]
+}

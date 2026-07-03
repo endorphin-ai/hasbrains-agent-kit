@@ -1,0 +1,9 @@
+{
+  "name": "content-creation",
+  "version": "1.0.0",
+  "description": "Content engine for technical creators — social media writing with named copywriting frameworks, transcript restyling (tutorial + tech-news voices), and YouTube SEO strategy.",
+  "author": { "name": "Andrew Novykov", "url": "https://github.com/andrewnovykov" },
+  "repository": "https://github.com/endorphin-ai/hasbrains-agent-kit",
+  "license": "MIT",
+  "keywords": ["claude-code", "content-creation", "youtube-seo", "copywriting", "social-media", "transcripts"]
+}

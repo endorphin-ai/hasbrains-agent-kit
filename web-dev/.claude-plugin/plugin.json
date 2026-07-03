@@ -1,0 +1,9 @@
+{
+  "name": "web-dev",
+  "version": "1.0.0",
+  "description": "Multi-agent web dev pipeline — HTML design agent, framework conversion with pixel-perfect fidelity, and Playwright + pixelmatch visual regression gates.",
+  "author": { "name": "Andrew Novykov", "url": "https://github.com/andrewnovykov" },
+  "repository": "https://github.com/endorphin-ai/hasbrains-agent-kit",
+  "license": "MIT",
+  "keywords": ["claude-code", "web-development", "playwright", "visual-regression", "design-to-code", "e2e-testing"]
+}
