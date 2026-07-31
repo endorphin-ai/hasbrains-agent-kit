@@ -83,13 +83,13 @@ links: [[designer-handoff]], [[frontend-port]], [[design-diff]], [[baseline-and-
 
 Rules of the layout:
 
-- **Durable → committed docs; throwaway → `.ai_log/`** (R15). The baseline is durable and
+- **Durable → committed docs; throwaway → `.ai_log/`.** The baseline is durable and
   lives in `docs/design/`; diff triptychs are evidence and live in `.ai_log/`, referenced by
   path. Anything durable that lands in `.ai_log/` gets PROMOTED.
 - **Single source, pointers elsewhere** — tokens live ONCE (the app's declared token source,
   mirrored by `docs/design/design-tokens`); the frontend KB points back, never forks. A copy
   that can drift is a future contract violation.
-- **Handoffs are lookups** (R17): each side records key fields + artifact paths in
+- **Handoffs are lookups** (see the `pipeline-state` skill): each side records key fields + artifact paths in
   pipeline-state; the other side reads them from there — no giant inlined dumps between
   phases.
 
@@ -170,4 +170,4 @@ per-PR preview scheme, template language + its dynamic-binding whitelist, the UI
 signal, the declared token source path, the seed accounts per access state, and the access
 states themselves. Swap that config note (and the project's design library) to retarget;
 this skill does not change. If a needed stack fact is missing from the config, ADD it there
-(R14) — never hard-code it here or in an agent.
+— never hard-code it here or in an agent.

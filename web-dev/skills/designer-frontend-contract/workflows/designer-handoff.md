@@ -90,7 +90,7 @@ IDENTITY "Designer Handoff Playbook (producer side of the contract)"
 
 7. **HAND OFF PATHS.** Record in pipeline-state + the session report: the oracle path, the
    manifest entry, the baseline dir, the inventory path, the spec section — PATHS, not
-   blobs (R17). The frontend reads these as its six binding inputs ([[frontend-port]] §0).
+   blobs. The frontend reads these as its six binding inputs ([[frontend-port]] §0).
 
 ## The fidelity loop (what makes "1:1" enforceable)
 

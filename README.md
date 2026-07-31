@@ -50,7 +50,7 @@ cp -r teaching/skills/<skill-name> ~/.claude/skills/
 | [`context-engineering`](context-engineering) | Context engineering for AI agents. AI-optimized second-brain skills, durable pipeline state for multi-agent handoffs, expert prompt building. |
 | [`content-creation`](content-creation) | Content engine for technical creators. Social posts and video scripts engineered around named copywriting frameworks, scroll-stopping hooks, and retention mechanics. |
 | [`teaching`](teaching) | Interactive AI teacher. `/repo-to-course` turns any codebase into a structured tutorial course — markdown, GitHub Pages site, or interactive HTML. |
-| [`web-dev`](web-dev) | Multi-agent web dev pipeline. The designer ↔ frontend contract: freeze approved mockups into a canonical oracle, port them 1:1 on any stack, verify with screenshot-based design-diff gates. |
+| [`web-dev`](web-dev) | Multi-agent web dev pipeline. UX research and design critique around the build (personas, storyboards, heuristics, measured design forensics), plus the designer ↔ frontend contract: freeze approved mockups into a canonical oracle, port them 1:1 on any stack, verify with screenshot-based design-diff gates. |
 
 ## Using the prompts
 

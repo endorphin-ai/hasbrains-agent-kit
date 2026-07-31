@@ -1,7 +1,7 @@
 # Output Format — designer-frontend-contract
 
 Three report shapes, one per side of the contract. All evidence images offload to
-`.ai_log/` and are handed on as PATHS (key fields + paths recorded in pipeline-state, R17).
+`.ai_log/` and are handed on as PATHS (key fields + paths recorded in the run's handoff state — see the `pipeline-state` skill — never inlined blobs).
 Stack values (app-under-test URL, preview scheme, seed accounts) resolve from
 `docs/project_config/info.md` `{config.frontend_runtime}` — shown below as examples.
 
@@ -75,7 +75,7 @@ Census source: <inventory file | DERIVED-LIVE>   ·   Census: 21/24 regions pres
 | Page | Access state | 375 | 768 | 1024 | 1440 | Verdict | Diff image |
 |------|--------------|-----|-----|------|------|---------|------------|
 | Home | anonymous | PASS | PASS | PASS | PASS | PASS | — |
-| Reader | entitled | PASS | PASS | 0.9% FAIL | PASS | FAIL | .ai_log/phase-5-design-diff-reader-entitled-1024.png |
+| Reader | entitled | PASS | PASS | 0.9% FAIL | PASS | FAIL | .ai_log/design-diff/reader-entitled-1024.png |
 ```
 
 - One row per page × access state; one cell per breakpoint (PASS or the diff % on FAIL).
@@ -115,8 +115,8 @@ DESIGN-DIFF: reject  — <N> page(s) with a census miss, DOM delta, over-thresho
 ### C6. Diff-image manifest (evidence, offloaded to `.ai_log/`)
 
 ```markdown
-- .ai_log/phase-<N>-design-diff-<page>-<state>-<bp>.png   (baseline | actual | diff triptych)
+- .ai_log/design-diff/<page>-<state>-<bp>.png   (baseline | actual | diff triptych)
 ```
 
 Durable design decisions (a refreshed baseline, an accepted deviation) are PROMOTED to
-`docs/design/` per R15 — never left only in `.ai_log/`.
+`docs/design/` — durable artifacts are committed, never left only in the git-ignored `.ai_log/`.

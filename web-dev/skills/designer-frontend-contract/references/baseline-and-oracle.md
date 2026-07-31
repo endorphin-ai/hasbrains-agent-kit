@@ -86,7 +86,7 @@ is NOT to relax the threshold — it is to refresh the oracle:
 
 ## Guardrails
 
-- The baseline lives in `docs/design/` (committed), never only in `.ai_log/` (git-ignored)
-  — R15. Diff images are throwaway evidence in `.ai_log/`; the baseline is durable.
+- The baseline lives in `docs/design/` (committed), never only in `.ai_log/` (git-ignored).
+  Diff images are throwaway evidence in `.ai_log/`; the baseline is durable.
 - A page with no resolvable oracle is `[NO-ORACLE]`, an explicit blocking finding —
   establish one, don't pass by default.

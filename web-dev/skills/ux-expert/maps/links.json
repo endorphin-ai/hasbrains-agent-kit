@@ -1,0 +1,20 @@
+{
+  "research-plan": ["research-method-matrix", "persona-craft", "journey-empathy-and-prioritization"],
+  "personas": ["persona-craft", "research-method-matrix", "storyboard"],
+  "storyboard": ["storyboard-craft", "persona-craft", "journey-empathy-and-prioritization"],
+  "heuristics-review": ["nielsen-heuristics", "cognitive-load-and-conversion", "design-review", "honest-rendering"],
+  "design-review": ["nielsen-heuristics", "cognitive-load-and-conversion", "visual-craft-rules", "ai-product-ux", "journey-empathy-and-prioritization", "research-method-matrix", "design-analysis", "verification-instruments", "honest-rendering"],
+  "design-analysis": ["design-forensics-scripts", "eight-dimensions-and-tokens", "design-review", "verification-instruments"],
+  "research-method-matrix": ["persona-craft", "journey-empathy-and-prioritization"],
+  "persona-craft": ["storyboard-craft", "journey-empathy-and-prioritization"],
+  "storyboard-craft": ["persona-craft", "journey-empathy-and-prioritization"],
+  "nielsen-heuristics": ["cognitive-load-and-conversion", "visual-craft-rules"],
+  "visual-craft-rules": ["eight-dimensions-and-tokens"],
+  "cognitive-load-and-conversion": ["nielsen-heuristics"],
+  "ai-product-ux": ["nielsen-heuristics"],
+  "journey-empathy-and-prioritization": ["persona-craft", "storyboard-craft", "research-method-matrix"],
+  "design-forensics-scripts": ["eight-dimensions-and-tokens", "verification-instruments"],
+  "eight-dimensions-and-tokens": ["design-forensics-scripts", "visual-craft-rules"],
+  "verification-instruments": ["design-forensics-scripts", "honest-rendering", "eight-dimensions-and-tokens"],
+  "honest-rendering": ["verification-instruments", "nielsen-heuristics", "cognitive-load-and-conversion"]
+}

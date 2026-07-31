@@ -32,7 +32,7 @@
     {
       "name": "web-dev",
       "source": "./web-dev",
-      "description": "Multi-agent web dev pipeline — the designer ↔ frontend contract: freeze approved mockups into a canonical oracle, port them 1:1 on any stack, and verify with screenshot-based design-diff gates.",
+      "description": "Multi-agent web dev pipeline — UX research and design critique around the build, plus the designer ↔ frontend contract: freeze approved mockups into a canonical oracle, port them 1:1 on any stack, and verify with screenshot-based design-diff gates.",
       "category": "development"
     }
   ]

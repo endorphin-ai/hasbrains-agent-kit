@@ -20,9 +20,9 @@ IDENTITY "Design-Diff Run Playbook (verifier side of the contract)"
   > frontend's own self-gate ([[frontend-port]] §4) — never replaces it. Report-only:
   > surface drift + broken/obscured interactions; never edit application source.
 
-!!! Uses `agent-browser` (R13) to drive a REAL browser against the running app — plus
+!!! Drives a REAL browser against the running app (the `agent-browser` CLI, Playwright, or a browser MCP) — plus
     Playwright `toHaveScreenshot` / pixelmatch for the pixel diff. Diff images offload to
-    `.ai_log/` and hand on as PATHS (R15: promote durable design decisions to `docs/design/`).
+    `.ai_log/` and hand on as PATHS (promote durable design decisions to `docs/design/`).
 !!! Stack facts — dev server command + URL, per-PR preview scheme, seed accounts, settle
     signal — resolve from `docs/project_config/info.md` `{config.frontend_runtime}`.
 
@@ -68,7 +68,7 @@ IDENTITY "Design-Diff Run Playbook (verifier side of the contract)"
 6. **PIXEL-DIFF vs the baseline (only after the census is 100%).** Compare each screenshot
    to the frozen baseline at that breakpoint (Playwright `toHaveScreenshot` / pixelmatch).
    Over the threshold → FAIL with the diff % and the triptych (baseline | actual | diff) to
-   `.ai_log/phase-<N>-design-diff-<page>-<state>-<bp>.png`. The pixel diff REFINES a
+   `.ai_log/design-diff/<page>-<state>-<bp>.png`. The pixel diff REFINES a
    census-complete page; it never substitutes for the census.
 
 7. **RULE-CHECK the oracle rules** (catches drift a pixel diff can miss + explains a FAIL):
@@ -93,4 +93,4 @@ IDENTITY "Design-Diff Run Playbook (verifier side of the contract)"
 10. **ROUTE, don't fix.** Build drift + missing regions → the frontend dev (fix by porting
     the oracle — [[frontend-port]]); a legitimate design change → the designer (REFRESH the
     oracle — [[baseline-and-oracle]]). Promote any accepted deviation / refreshed baseline
-    to `docs/design/` (R15). This playbook never edits application source.
+    to `docs/design/`. This playbook never edits application source.

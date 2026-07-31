@@ -1,0 +1,168 @@
+{
+  "version": "1.0",
+  "skill": "ux-expert",
+  "notes": [
+    {
+      "id": "research-method-matrix",
+      "path": "references/research-method-matrix.md",
+      "title": "UX Research Method Matrix",
+      "summary": "Attitudinal<->behavioral x qual<->quant x context-of-use framework, the Strategize/Design/Launch phase map, the 20-method reference table, the recommendation shape, and the 5 common traps.",
+      "tags": ["ux/research", "ux/method-selection"],
+      "tokens_est": 1150,
+      "load_when": "When choosing or defending a research method, or when a request needs evidence before a UI recommendation can responsibly be made."
+    },
+    {
+      "id": "persona-craft",
+      "path": "references/persona-craft.md",
+      "title": "Persona Craft",
+      "summary": "The research-foundation rule (no research = assumption document), clustering, required vs optional fields, the relevance test, the output layout, downstream uses, and the quality checklist.",
+      "tags": ["ux/personas", "ux/definition"],
+      "tokens_est": 1000,
+      "load_when": "When creating, improving, or critiquing personas — for the field set, the relevance test, and the grounded-vs-proto provenance rule."
+    },
+    {
+      "id": "storyboard-craft",
+      "path": "references/storyboard-craft.md",
+      "title": "Storyboard Craft",
+      "summary": "The 3 required components (scenario/visuals/captions), the audience x fidelity table, the plan-steps-then-emotions method, the panel output format, storyboard vs journey map, and the checklist.",
+      "tags": ["ux/storyboard", "ux/definition"],
+      "tokens_est": 1050,
+      "load_when": "When illustrating a user scenario panel by panel — one persona, one scenario, one path — or deciding storyboard vs journey map."
+    },
+    {
+      "id": "nielsen-heuristics",
+      "path": "references/nielsen-heuristics.md",
+      "title": "The 10 Usability Heuristics (H1-H10)",
+      "summary": "H1-H10 with the diagnostic question per heuristic, the per-input-type focus lists (screenshot vs written description vs both), and the critique-mode / design-guidance-mode run orders.",
+      "tags": ["ux/heuristics", "ux/evaluation"],
+      "tokens_est": 830,
+      "load_when": "When critiquing a UI or flow against the usability heuristics, or translating the relevant heuristics into design decisions for a new flow."
+    },
+    {
+      "id": "visual-craft-rules",
+      "path": "references/visual-craft-rules.md",
+      "title": "The 12 Visual Craft Rules",
+      "summary": "The 12 craft rules (gradients, glow, transition:all, monotony, placeholder copy, stacking contexts, pure black/white, space scale, type, elevation, states, motion physics) plus the override rule: judge against the project's approved design system (docs/design/), not generic taste.",
+      "tags": ["ux/craft", "ux/evaluation", "ux/visual"],
+      "tokens_est": 420,
+      "load_when": "When reviewing high-fidelity UI or frontend CSS. SKIP for wireframes, flows, and early-stage concepts."
+    },
+    {
+      "id": "cognitive-load-and-conversion",
+      "path": "references/cognitive-load-and-conversion.md",
+      "title": "Cognitive Load, Conversion & Persuasive UX",
+      "summary": "The load inventory (clutter, mental-model mismatch, unnecessary decisions, memory burden, manual work), the squint/three-second/subtraction/memory tests, the keep-protective-friction rule, and the 7 persuasion levers.",
+      "tags": ["ux/conversion", "ux/cognitive-load", "ux/evaluation"],
+      "tokens_est": 500,
+      "load_when": "When a page renders correctly but does not convert, or when asked whether a persuasive pattern is appropriate."
+    },
+    {
+      "id": "ai-product-ux",
+      "path": "references/ai-product-ux.md",
+      "title": "AI Product UX",
+      "summary": "The five opening questions (acting on what / can change what / worst case / can the user steer-stop-undo-verify / is it disclosed) plus the AI input patterns, wayfinding, tuners, governors, trust builders, identifiers, and friction calibration.",
+      "tags": ["ux/ai-product", "ux/trust", "ux/evaluation"],
+      "tokens_est": 1400,
+      "load_when": "When reviewing any AI or agentic feature — scope, trust, control, data, and cost checks beyond the normal UX pass."
+    },
+    {
+      "id": "journey-empathy-and-prioritization",
+      "path": "references/journey-empathy-and-prioritization.md",
+      "title": "Journey Maps, Empathy Maps, Prioritization & the Double Diamond",
+      "summary": "Empathy-map quadrants (says/thinks/does/feels and the value of contradictions), journey-map anatomy (one actor, one goal), the 2D prioritization matrix with its criteria-honesty warning, and the Double Diamond process check.",
+      "tags": ["ux/synthesis", "ux/prioritization", "ux/process"],
+      "tokens_est": 800,
+      "load_when": "When synthesizing qualitative research into an artifact, sequencing what to fix first, or checking which design-process phase the team is actually in."
+    },
+    {
+      "id": "design-forensics-scripts",
+      "path": "references/design-forensics-scripts.md",
+      "title": "Design Forensics — Capture & Pixel-Sampling Scripts",
+      "summary": "The input triage table, capture.mjs (multi-viewport screenshots + computed-style harvest incl. CSS vars, breakpoints, webfonts, motion), palette.mjs (pixel palette with area shares, OKLCH, contrast pairs, composition metrics), how to read the composition numbers, capture-failure handling, and the repo path/viewport overrides.",
+      "tags": ["ux/forensics", "ux/measurement", "ux/tooling"],
+      "tokens_est": 5200,
+      "load_when": "When ANY claim about a hex, font size, spacing value, contrast ratio, or composition must be measured instead of guessed. Always load before MODE analysis."
+    },
+    {
+      "id": "eight-dimensions-and-tokens",
+      "path": "references/eight-dimensions-and-tokens.md",
+      "title": "The Eight Design Dimensions, Report Shape & Token Emission",
+      "summary": "Per-dimension reporting guidance (typography, color, layout, imagery, space, shape/depth, motion, voice), the report skeleton with style signature + genre, the palette table, paste-ready token emission (this app = CSS custom properties; shadcn kept for external targets), the 9 accuracy rules, and the critique handoffs.",
+      "tags": ["ux/forensics", "ux/tokens", "ux/reporting"],
+      "tokens_est": 3400,
+      "load_when": "When writing a design-analysis report or emitting design tokens from measured values."
+    },
+    {
+      "id": "verification-instruments",
+      "path": "references/verification-instruments.md",
+      "title": "Verification Instruments — how to measure a UI without lying to yourself",
+      "summary": "A metric that cannot fail is not evidence. Nine documented probe failures that each produced a confident WRONG answer (mobile-emulation overflow that can never fire, regex colour parsing of color(srgb ...) floats, background walks that stop at a translucent layer, state inferred from markup instead of measured height, counting the wrong selector, a readiness wait satisfied by the loading stub, the self-referential sentinel, racing the app for localStorage, scoring decorative glyphs), plus verify-the-FIX-not-the-edit (no-op fixes, symptom vs cause), fix-the-token-not-the-selectors, enumerate the router's full state space, and the reporting rules that follow.",
+      "tags": ["ux/measurement", "ux/tooling", "ux/evaluation", "ux/reporting"],
+      "tokens_est": 1900,
+      "load_when": "Before trusting any number a browser probe produced, when writing or reviewing a measurement script, when a measured result disagrees with what is visible on screen, or when a fix did not move the number."
+    },
+    {
+      "id": "honest-rendering",
+      "path": "references/honest-rendering.md",
+      "title": "Honest Rendering — a page must not claim more than its data supports",
+      "summary": "Every affordance is a claim; when the claim outruns the data the user cannot see that it happened, so integrity defects outrank cosmetic ones. Nine violation shapes with their tests (vacuous 'complete' badge, authored placeholder counted as documentation, headline counting a subset of what is below it, breadcrumb rooted where the record never was, filter with one option, URL naming a state the page is not in, authored links silently dropped by the generator, derived label map blowing up on new content, meaning encoded twice with different colours) plus four rules for presenting derived data honestly (precision may not exceed the source; structure over JSON dumps; units in the reader's terms; labels from the canonical source).",
+      "tags": ["ux/evaluation", "ux/reporting", "ux/data-integrity"],
+      "tokens_est": 1500,
+      "load_when": "Reviewing or designing any page that presents generated/derived content — a dashboard, document renderer, list view, report or chart — and before filing a 'polish' finding, to check whether the real defect is an integrity one."
+    },
+    {
+      "id": "research-plan",
+      "path": "workflows/research-plan.md",
+      "title": "MODE research — workflow",
+      "summary": "Clarify the situation, mine existing free evidence first, apply the three-dimension framework, shortlist and sequence 1-3 methods, write the plan with the five-part per-method shape, check the traps.",
+      "tags": ["ux/workflow", "ux/research"],
+      "tokens_est": 900,
+      "load_when": "Running MODE research."
+    },
+    {
+      "id": "personas",
+      "path": "workflows/personas.md",
+      "title": "MODE personas — workflow",
+      "summary": "Establish the research foundation, cluster users, cross-check against the product's access states, build each persona with the relevance test, state provenance, differentiate, write one file per persona plus the index.",
+      "tags": ["ux/workflow", "ux/personas"],
+      "tokens_est": 900,
+      "load_when": "Running MODE personas."
+    },
+    {
+      "id": "storyboard",
+      "path": "workflows/storyboard.md",
+      "title": "MODE storyboard — workflow",
+      "summary": "Gather input, set fidelity from audience, fix one persona/one path, plan steps then emotions, write panels, give the access-state seam its own panel, write the file; includes the when-not-to-storyboard table.",
+      "tags": ["ux/workflow", "ux/storyboard"],
+      "tokens_est": 850,
+      "load_when": "Running MODE storyboard."
+    },
+    {
+      "id": "heuristics-review",
+      "path": "workflows/heuristics-review.md",
+      "title": "MODE heuristics — workflow",
+      "summary": "Critique mode (establish states, DRIVE it in a real browser, scan in the H1/H8/H9 -> H3/H5/H6 -> H2/H4/H7/H10 order, check the product's access-state/entitlement/async/destructive seams, write findings + max-3 priority actions, route what is not yours) and design-guidance mode.",
+      "tags": ["ux/workflow", "ux/heuristics"],
+      "tokens_est": 1050,
+      "load_when": "Running MODE heuristics."
+    },
+    {
+      "id": "design-review",
+      "path": "workflows/design-review.md",
+      "title": "MODE review — workflow",
+      "summary": "First-pass lead-lens selection table, grounding in spec + driven evidence + measurement, the applicable lenses (core UX, cognitive load, craft, a11y, persuasion, research, AI, process), the write-up order, and the finding-ownership routing table.",
+      "tags": ["ux/workflow", "ux/evaluation"],
+      "tokens_est": 1250,
+      "load_when": "Running MODE review — the default entry for 'review this' / 'is this good UX?'."
+    },
+    {
+      "id": "design-analysis",
+      "path": "workflows/design-analysis.md",
+      "title": "MODE analysis — workflow",
+      "summary": "Input triage and scope, capture at 375/768/1024/1440, pixel sampling, look at the images (squint test), report the eight dimensions, emit tokens in the project's own idiom, effort-matched mode shortcuts, write-out and handoff.",
+      "tags": ["ux/workflow", "ux/forensics"],
+      "tokens_est": 1200,
+      "load_when": "Running MODE analysis — measuring a screenshot or live URL."
+    }
+  ]
+}

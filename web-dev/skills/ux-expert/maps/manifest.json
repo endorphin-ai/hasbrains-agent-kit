@@ -1,0 +1,39 @@
+{
+  "source": "https://github.com/tommyjepsen/awesome-ux-skills",
+  "source_files": [
+    "ux-research-methods.md",
+    "ux-personas.md",
+    "ux-storyboard.md",
+    "ux-heuristics-review.md",
+    "general-design-review.md",
+    "design-analysis.md"
+  ],
+  "source_type": "external-skill-set",
+  "built_at": "2026-07-29T00:00:00Z",
+  "updated_at": "2026-07-31T00:00:00Z",
+  "built_with": "build-brain (lean map + atomized tagged notes + nav)",
+  "version": "1.1",
+  "counts": { "notes": 18, "references": 12, "workflows": 6, "tags": 23, "links": 18 },
+  "tokens": { "skill_md": 3400, "index_json": 2900, "references_total": 19200, "workflows_total": 6100 },
+  "local_additions": [
+    {
+      "note": "verification-instruments",
+      "origin": "learned in production use, NOT from the external source",
+      "evidence": "nine probe failures on one site, each of which produced a confident wrong answer that was reported as fact before being caught"
+    },
+    {
+      "note": "honest-rendering",
+      "origin": "learned in production use, NOT from the external source",
+      "evidence": "nine informational-integrity violations found on one site, none of them visual"
+    }
+  ],
+  "adaptations": [
+    "Evidence paths -> the project's git-ignored scratch folder; durable artifacts -> docs/ux/",
+    "Dev target {config.dev_url}; deployed target = the per-PR / staging preview only, never production",
+    "Breakpoints read from {config.frontend_runtime} (a common ladder is 375/768/1024/1440)",
+    "Token idiom = whatever token source the project declares; never invent or import a second one",
+    "Craft rules 1/2/7 (gradients, glow, pure black/white) are overridden by the project's own approved design system",
+    "Browser verification = drive a real browser (agent-browser CLI / Playwright / browser MCP) and click every control",
+    "Visual-drift findings route to designer-frontend-contract; defects become docs/bugs/ bug + RCA files"
+  ]
+}

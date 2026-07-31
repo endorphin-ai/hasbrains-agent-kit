@@ -1,6 +1,6 @@
 ---
 name: designer-frontend-contract
-description: "The universal, tech-agnostic DESIGNER ↔ FRONTEND contract — how the web designer and the frontend dev help each other, where they store their shared data, how they communicate, and how the contract between them is written and ENFORCED. Three sides: the DESIGNER freezes an approved mockup into a canonical oracle (oracle-manifest.json + baseline renders + a region/element inventory + token parity + a four-part visual acceptance contract); the FRONTEND dev consumes that contract and PORTS the oracle 1:1 (transcribe, never redesign), self-gating census → DOM → pixel before handoff; the VERIFIER (design-diff) independently screenshots every built page × access state × breakpoint against the frozen baseline and reports per-page PASS/FAIL — report-only, a mismatch is a gate reject. Works on ANY stack (Phoenix/LiveView, Rails/Hotwire, React, …): stack facts (dev server, template language, settle signal, token source, seed accounts) are read at runtime from docs/project_config/info.md, never baked in. Use when: freezing an approved design for handoff; building a page from a frozen mockup; verifying a built page matches the approved design; establishing/refreshing a design baseline; deciding where design/frontend data lives or how the two roles hand off. Owned by the designer agent; on the architect's verify path; consumed by the frontend dev."
+description: "The universal, tech-agnostic DESIGNER ↔ FRONTEND contract — how the web designer and the frontend dev help each other, where they store their shared data, how they communicate, and how the contract between them is written and ENFORCED. Three sides: the DESIGNER freezes an approved mockup into a canonical oracle (oracle-manifest.json + baseline renders + a region/element inventory + token parity + a four-part visual acceptance contract); the FRONTEND dev consumes that contract and PORTS the oracle 1:1 (transcribe, never redesign), self-gating census → DOM → pixel before handoff; the VERIFIER (design-diff) independently screenshots every built page × access state × breakpoint against the frozen baseline and reports per-page PASS/FAIL — report-only, a mismatch is a gate reject. Works on ANY stack (Phoenix/LiveView, Rails/Hotwire, React, …): stack facts (dev server, template language, settle signal, token source, seed accounts) are read at runtime from docs/project_config/info.md, never baked in. Use when: freezing an approved design for handoff; building a page from a frozen mockup; verifying a built page matches the approved design; establishing/refreshing a design baseline; deciding where design/frontend data lives or how the two roles hand off. Owned by the design role; on the architecture role's verify path; consumed by the frontend dev."
 ---
 
 TASKLANG
@@ -15,7 +15,7 @@ IDENTITY "Designer ↔ Frontend Contract (universal — any stack)"
   > design-diff VERIFIES the running UI against the oracle and feeds the pipeline's
   > verify gate. TECH-AGNOSTIC by construction: no framework, port, template language,
   > or product fact lives here — those are read from `docs/project_config/info.md`
-  > (`{config.frontend_runtime}` + `{config.spec_path}`) at runtime, per rule R14.
+  > (`{config.frontend_runtime}` + `{config.spec_path}`) at runtime.
   > It exists because builds without this contract silently re-style, drop whole page
   > regions, and ship broken UI that a green HTTP-200 smoke never catches.
 
@@ -29,9 +29,9 @@ This SKILL.md is a MAP. Detail lives in `workflows/` (the three role playbooks) 
 
 | Side | Role | Playbook | Runs when |
 |------|------|----------|-----------|
-| **PRODUCER** | the designer agent (skill owner) | [[designer-handoff]] | An approved mockup must become a build target: freeze → manifest → inventory → token parity → acceptance contract. |
-| **CONSUMER** | the frontend dev agent | [[frontend-port]] | Building a page from a frozen oracle: consume the contract → port 1:1 → self-gate census→DOM→pixel → report + KB write-back. |
-| **VERIFIER** | the designer (owner) + the architect (verify-gate path) | [[design-diff]] | Independently verifying built pages against the oracle (pipeline verify gate, fan-out audit finder, or ad-hoc). |
+| **PRODUCER** | the design owner (skill owner) | [[designer-handoff]] | An approved mockup must become a build target: freeze → manifest → inventory → token parity → acceptance contract. |
+| **CONSUMER** | the frontend owner | [[frontend-port]] | Building a page from a frozen oracle: consume the contract → port 1:1 → self-gate census→DOM→pixel → report + KB write-back. |
+| **VERIFIER** | the design owner + whoever runs the verify gate | [[design-diff]] | Independently verifying built pages against the oracle (pipeline verify gate, fan-out audit finder, or ad-hoc). |
 
 ---
 
@@ -94,7 +94,7 @@ This SKILL.md is a MAP. Detail lives in `workflows/` (the three role playbooks) 
     server command/URL, per-PR preview scheme, template language + its dynamic-binding
     whitelist, settle signal, token-source path, seed accounts, access states: read them
     from `docs/project_config/info.md` (`{config.frontend_runtime}`). To reuse this skill
-    on another project/stack, swap that config — not this skill (R14).
+    on another project/stack, swap that config — not this skill.
 
 ---
 

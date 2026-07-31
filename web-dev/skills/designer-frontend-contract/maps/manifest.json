@@ -8,21 +8,38 @@
     "tags": "maps/tags.json",
     "links": "maps/links.json"
   },
-  "companions": ["FORMAT.md", "VOICE.md"],
-  "workflows": ["workflows/designer-handoff.md", "workflows/frontend-port.md", "workflows/design-diff.md"],
-  "references": ["references/contract-and-communication.md", "references/region-census.md", "references/baseline-and-oracle.md", "references/fidelity-checks.md"],
+  "companions": [
+    "FORMAT.md",
+    "VOICE.md"
+  ],
+  "workflows": [
+    "workflows/designer-handoff.md",
+    "workflows/frontend-port.md",
+    "workflows/design-diff.md"
+  ],
+  "references": [
+    "references/contract-and-communication.md",
+    "references/region-census.md",
+    "references/baseline-and-oracle.md",
+    "references/fidelity-checks.md"
+  ],
   "roles": {
-    "producer_owner": "the designer agent",
-    "verify_path": "the architect agent (verify mode)",
-    "consumer": "the frontend dev agent"
+    "producer_owner": "the design owner",
+    "verify_path": "whoever runs the verify gate",
+    "consumer": "the frontend owner"
   },
   "current_project_bindings": {
-    "note": "Descriptive nav metadata for THIS repo's rosters only — the skill body uses roles; retargeting another squad means changing these bindings, never the skill body (R14).",
-    "owner_agents": ["webdesigner-phx", "webdesigner-ror"],
-    "verify_path_agents": ["architect-phx", "architect-ror"],
-    "consumer_agents": ["frontend-phx", "frontend-ror"]
+    "note": "Bind these role slots to the actual agents/roles in YOUR project. The skill body speaks in roles only — retargeting means changing these bindings, never the skill body.",
+    "owner_agents": [
+      "<your design agent>"
+    ],
+    "verify_path_agents": [
+      "<your verify-gate agent>"
+    ],
+    "consumer_agents": [
+      "<your frontend agent>"
+    ]
   },
-  "supersedes": ["design-diff-phx", "design-diff-ror"],
   "stack_facts_source": "docs/project_config/info.md#{config.frontend_runtime}",
   "note_count": 7,
   "generated_by": "claude-fable-5 (designer-frontend-contract unification)"

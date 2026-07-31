@@ -92,17 +92,17 @@ IDENTITY "Frontend Port Playbook (consumer side of the contract)"
    the project defines (including any locked/paywall variant and populated dashboards), at
    all pinned breakpoints. The match must hold end-to-end.
 
-6. **PROVE the interactions.** Before reporting done, drive a real browser (agent-browser,
-   R13): for each built page × each reachable access state, CLICK every control (links,
+6. **PROVE the interactions.** Before reporting done, drive a REAL browser (the `agent-browser`
+   CLI, Playwright, or a browser MCP): for each built page × each reachable access state, CLICK every control (links,
    buttons, menu open + items, form submit, toggles, modal open/close) AND hit-test real
    clickability (`elementFromPoint` at the control's centre resolves to the control, not an
    overlay); walk the full UI-reachable entity lifecycle (create → read → edit → delete
    where the entity supports it). Never report done with an unclickable, obscured, or dead
-   control (R9).
+   control — a feature is EXERCISED, not loaded.
 
 7. **REPORT the evidence + WRITE BACK the KB.** Hand back per page per breakpoint: census
    result, DOM-check pass, final pixel-diff %, waived diffs + reasons, interaction-proof
-   matrix — evidence screenshots to `.ai_log/`, paths + key fields to pipeline-state (R17).
+   matrix — evidence screenshots to `.ai_log/`, paths + key fields to the run's handoff state (never inlined blobs).
    Then update `docs/frontend/`: one atomized file per new/changed reusable component
    (path, prop/slot contract, variants, states, `data-test` hooks, where used), the
    page→component map, and the **deviations ledger** in `design-system-in-use.md` — every
