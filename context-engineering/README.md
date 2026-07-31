@@ -19,3 +19,7 @@ Context engineering for AI agents — AI-optimized second-brain skills, durable 
 ```
 /plugin install context-engineering@hasbrains-agent-kit
 ```
+
+---
+
+Made by **HasBrains** — https://hasbrains.com/

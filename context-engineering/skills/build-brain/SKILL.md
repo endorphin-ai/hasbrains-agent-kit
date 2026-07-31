@@ -186,3 +186,7 @@ NEVER add apologies, filler, or "great idea!" — go straight to the work.
 - REPORT.md shows before → after with numbers, changes, and honest tradeoffs, in junior-engineer voice.
 - SOURCE is untouched.
   </done_when>
+
+---
+
+Made by **HasBrains** — https://hasbrains.com/

@@ -46,7 +46,7 @@ cp -r teaching/skills/<skill-name> ~/.claude/skills/
 
 | Plugin | What it does |
 |---|---|
-| [`agent-engineering`](agent-engineering) | Engineering discipline for AI agent systems. Four always-on principles, test-driven development, verification-before-completion, system-architecture playbooks, docs/-native project management. |
+| [`agent-engineering`](agent-engineering) | Engineering discipline for AI agent systems. Four always-on principles, test-driven development, verification-before-completion, system-architecture playbooks, a scope-disciplined product manager (PRD → roadmap → acceptance gate), and docs/-native project management. |
 | [`context-engineering`](context-engineering) | Context engineering for AI agents. AI-optimized second-brain skills, durable pipeline state for multi-agent handoffs, expert prompt building. |
 | [`content-creation`](content-creation) | Content engine for technical creators. Social posts and video scripts engineered around named copywriting frameworks, scroll-stopping hooks, and retention mechanics. |
 | [`teaching`](teaching) | Interactive AI teacher. `/repo-to-course` turns any codebase into a structured tutorial course — markdown, GitHub Pages site, or interactive HTML. |
@@ -82,3 +82,7 @@ Deep dives on the architecture behind this kit — multi-agent orchestration, sp
 ## License
 
 MIT — see [LICENSE](LICENSE).
+
+---
+
+Made by **HasBrains** — https://hasbrains.com/

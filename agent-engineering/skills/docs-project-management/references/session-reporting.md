@@ -3,7 +3,7 @@ id: session-reporting
 title: Team Work-Reporting / Session Work Folder (docs/sessions/) + Feature Log
 summary: The per-session work folder, the start/finish report bookend, build-brain organization of folder+memory, the report schema, role-specific sections, and the per-feature work-log (feature-log.md = lean index → docs/reports/feature-log/<feature-slug>.md).
 tags: [docs-pm/reporting, docs-pm/sessions, docs-pm/model]
-load_when: When bookending your run as a report, organizing a session folder or agent-memory, or filling the feature log.
+load_when: When bookending your run as a report, organizing a session folder or an agent's memory, or filling the feature log.
 links: [[status-lifecycle]], [[conventions-recap]], [[work-item-taxonomy]]
 ---
 
@@ -56,7 +56,7 @@ RULE bookend_report (mirrors the status bookend — bookend BOTH ends, IN the se
 ## 5b — Organize with build-brain (folder + memory)
 > EVERY agent applies the **build-brain** skill twice: (a) keep the SESSION FOLDER itself organized —
 > a lean `README.md` map + atomized per-phase report files + a small nav index, never one giant dump;
-> (b) keep its OWN `.claude/agent-memory/<agent>/` organized — a lean `MEMORY.md` map + atomized,
+> (b) keep its OWN persistent memory folder organized — a lean `MEMORY.md` map + atomized,
 > tagged memory files + a nav map, re-anchoring/retiring stale learnings as the project evolves.
 
 REPORT SCHEMA (per-agent report file, lives at `<session_dir>/<phase-N>-<agent>.md`)

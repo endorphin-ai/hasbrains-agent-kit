@@ -133,3 +133,7 @@ soc-media-writer/
     ├── video-script-template.md          the three-output template + a worked example
     └── content-matrix-template.md        blank Welsh Content Matrix + Hub-and-Spoke calendar
 ```
+
+---
+
+Made by **HasBrains** — https://hasbrains.com/

@@ -53,7 +53,7 @@
       "summary": "The per-session work folder, the start/finish report bookend, build-brain organization, the report schema, role sections, and the per-feature work-log (docs/reports/feature-log/<slug>.md split files + the docs/reports/feature-log.md lean index).",
       "tags": ["docs-pm/reporting", "docs-pm/sessions", "docs-pm/model"],
       "tokens_est": 1665,
-      "load_when": "When bookending your run as a report, organizing a session folder or agent-memory, or filling the feature log."
+      "load_when": "When bookending your run as a report, organizing a session folder or an agent's memory, or filling the feature log."
     },
     {
       "id": "conventions-recap",

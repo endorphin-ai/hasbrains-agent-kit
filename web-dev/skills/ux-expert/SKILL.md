@@ -33,6 +33,8 @@ IDENTITY "UX Research & Evaluation (universal — any stack)"
 
 !!! NEVER VERIFY AGAINST PRODUCTION. Any live-page measurement or drive runs against the project's local dev URL or its per-PR / staging preview — never the production deploy.
 
+!!! THE FILES THIS SKILL WRITES ARE DEFINED BY `docs-project-management` — LOAD IT AND USE IT. Every durable artifact this skill produces (a persona, a research plan, a storyboard, a review, an analysis) and every defect it files is a work item in the repo's `docs/` system of record. That companion skill owns the work-item TAXONOMY (which document lives where), the cross-document LINK GRAPH (relative markdown links in a `## Linked Documents` section), the YAML-frontmatter STATUS lifecycle + the bookend rule, the required frontmatter fields, the **bug + RCA report format** a confirmed defect must be filed in, and the team work-reporting convention. Do not invent a folder, a link direction, a status value or a bug format — read it: https://github.com/endorphin-ai/hasbrains-agent-kit/tree/main/agent-engineering/skills/docs-project-management
+
 ---
 
 ## Project Context (source of truth: the project's own config + spec)
@@ -181,11 +183,18 @@ REQUIRE
   - workflows/  # one playbook per mode (the HOW)
   - references/ # the atomized knowledge the workflows pull from
 
-Optional companions from this kit: `designer-frontend-contract` (the visual oracle + design-diff this
-skill routes to), `build-brain` (organize the UX library as a map + atomized notes), `pipeline-state`
-(hand off outputs by PATH across a multi-step run), `docs-project-management` (work-item taxonomy,
-link graph, status lifecycle, bug + RCA format), `four-principles` and
-`verification-before-completion` (evidence before assertions).
+**Companion skills from this kit:**
+- **`docs-project-management` — REQUIRED, not optional.** It defines where every durable artifact this
+  skill writes lives, how it links, how its `status:` moves, and the bug + RCA format a confirmed
+  defect is filed in. Load it before writing anything into `docs/`.
+  → https://github.com/endorphin-ai/hasbrains-agent-kit/tree/main/agent-engineering/skills/docs-project-management
+- `designer-frontend-contract` — the visual oracle + design-diff this skill routes drift to (and never
+  re-adjudicates).
+- `pm` — the product owner a `[SPEC-GAP]` escalates to; its personas/journeys feed the PRD and its
+  acceptance gate consumes these findings.
+- `build-brain` — organize the UX library as a lean map + atomized notes.
+- `pipeline-state` — hand outputs on by PATH across a multi-step run.
+- `four-principles`, `verification-before-completion` — evidence before assertions.
 
 ---
 
@@ -248,3 +257,7 @@ LIST quality_gate
 ---
 
 VERSION 1.0
+
+---
+
+Made by **HasBrains** — https://hasbrains.com/

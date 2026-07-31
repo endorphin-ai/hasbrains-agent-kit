@@ -177,3 +177,7 @@ CHECKLIST conventions
 - Patterns to capture: recurring item shapes, link-graph edge cases, report sections that proved useful.
 - Update permission: agents may freely add/update files in `references/`; changes to THIS SKILL.md map
   require user approval. Full strategy: [[conventions-recap]].
+
+---
+
+Made by **HasBrains** — https://hasbrains.com/

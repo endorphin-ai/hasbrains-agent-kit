@@ -1,0 +1,10 @@
+{
+  "pm/prd": ["prd"],
+  "pm/roadmap": ["roadmap", "roadmap-json"],
+  "pm/brainstorm": ["brainstorm"],
+  "pm/acceptance": ["acceptance"],
+  "pm/standup": ["standup", "standup-data-sources"],
+  "pm/scope": ["scope-guard"],
+  "pm/state": ["roadmap-json", "standup-data-sources"],
+  "pm/workflow": ["prd", "roadmap", "brainstorm", "acceptance", "standup", "scope-guard"]
+}

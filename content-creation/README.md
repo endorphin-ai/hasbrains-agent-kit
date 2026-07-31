@@ -17,3 +17,7 @@ Content engine for technical creators — social posts and video scripts enginee
 ```
 /plugin install content-creation@hasbrains-agent-kit
 ```
+
+---
+
+Made by **HasBrains** — https://hasbrains.com/

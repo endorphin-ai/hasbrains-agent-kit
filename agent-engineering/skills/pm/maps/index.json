@@ -1,0 +1,87 @@
+{
+  "skill": "pm",
+  "entry": "SKILL.md",
+  "description": "Master navigation map. Load SKILL.md + this file to orient, then open ONLY the one note the task needs.",
+  "notes": [
+    {
+      "id": "prd",
+      "kind": "workflow",
+      "path": "workflows/prd.md",
+      "title": "PRD Authoring Playbook",
+      "summary": "Read the spec, write objectives + scope-in, reproduce the out-of-scope wall, map EVERY success scenario to a testable gate copied 1:1 + its build phase, list the launch-blockers, write the build plan, run the scope pass, then create the work items in order (epic -> PRD -> stories) and hand off LAST.",
+      "tags": ["pm/prd", "pm/workflow"],
+      "load_when": "Authoring or updating the PRD from the spec or a user request.",
+      "links": ["roadmap", "scope-guard", "acceptance", "brainstorm"]
+    },
+    {
+      "id": "roadmap",
+      "kind": "workflow",
+      "path": "workflows/roadmap.md",
+      "title": "docs/ Roadmap Playbook",
+      "summary": "Own the roadmap as committed markdown: epic(s) per milestone, user stories decomposed across the COMPLETE flow graph (dependency chain + full entity lifecycle x every access state) and linked to their epic, the PRD, tasks, milestones, then regenerate + commit the roadmap mirror.",
+      "tags": ["pm/roadmap", "pm/workflow"],
+      "load_when": "Creating or refreshing the roadmap and its machine-readable mirror.",
+      "links": ["prd", "roadmap-json", "acceptance"]
+    },
+    {
+      "id": "brainstorm",
+      "kind": "workflow",
+      "path": "workflows/brainstorm.md",
+      "title": "Brainstorm / Idea-Exploration Playbook",
+      "summary": "Pre-PRD exploration WITH the user: load the brainstorming skill, ground in the project config + spec, ask ONE question at a time, propose 2-3 approaches with a recommendation, present a design, get approval. Read/think-only, scope wall still applies.",
+      "tags": ["pm/brainstorm", "pm/workflow"],
+      "load_when": "Shaping an idea or exploring options before any PRD exists.",
+      "links": ["prd", "scope-guard"]
+    },
+    {
+      "id": "acceptance",
+      "kind": "workflow",
+      "path": "workflows/acceptance.md",
+      "title": "Final Acceptance Sign-Off Playbook",
+      "summary": "The terminal gate: score EVERY success scenario PASS/FAIL with evidence, check every launch-blocker, verify 100% end-to-end breadth (every story = a dedicated passing test), compile blockers, emit ONE binary verdict, organize the docs/ folder (stale statuses, follow-ups), refresh + commit the roadmap mirror.",
+      "tags": ["pm/acceptance", "pm/workflow"],
+      "load_when": "The build is delivered and needs the final pass/fail sign-off.",
+      "links": ["prd", "scope-guard", "roadmap-json"]
+    },
+    {
+      "id": "standup",
+      "kind": "workflow",
+      "path": "workflows/standup.md",
+      "title": "On-Demand Standup Playbook",
+      "summary": "Evidence-based Done/Last, Next/Plan, Blockers. Roadmap mirror FIRST, live scan only when stale; test/CI numbers recency-reconciled most-recent-wins with timestamp/environment/commit. Read-only.",
+      "tags": ["pm/standup", "pm/workflow"],
+      "load_when": "Any on-demand status read.",
+      "links": ["standup-data-sources", "roadmap-json"]
+    },
+    {
+      "id": "scope-guard",
+      "kind": "workflow",
+      "path": "workflows/scope-guard.md",
+      "title": "Scope Guard Playbook",
+      "summary": "The continuous 'is X in scope?' check that runs INSIDE every mode: restate the request, check the out-of-scope list, check the declared business model, check the in-scope + launch-blocking sections, emit '<Yes|No> - <spec section>.' and name the spec edit that would reverse a No.",
+      "tags": ["pm/scope", "pm/workflow"],
+      "load_when": "Any request, feature idea, or proposal needs a scope ruling.",
+      "links": ["prd", "acceptance"]
+    },
+    {
+      "id": "roadmap-json",
+      "kind": "reference",
+      "path": "references/roadmap-json.md",
+      "title": "The Roadmap Mirror — docs/roadmap.json (PM-owned)",
+      "summary": "The machine-readable mirror of the docs/ roadmap: what it holds (every work item + status, milestones past/current/next, summary counts), the concrete schema, the one refresh moment (the acceptance gate), and the staleness rule.",
+      "tags": ["pm/roadmap", "pm/state"],
+      "load_when": "Reading or rebuilding the roadmap mirror, or judging whether the snapshot is stale.",
+      "links": ["standup", "standup-data-sources", "roadmap", "acceptance"]
+    },
+    {
+      "id": "standup-data-sources",
+      "kind": "reference",
+      "path": "references/standup-data-sources.md",
+      "title": "Standup — parts, data sources, and recency reconciliation",
+      "summary": "The three standup parts and what each pulls from, the priority-ordered data sources (mirror first, live scan last), and the most-recent-wins reconciliation for test/CI numbers by timestamp/environment/commit.",
+      "tags": ["pm/standup", "pm/state"],
+      "load_when": "Producing a standup, or deciding which test/CI status is current.",
+      "links": ["standup", "roadmap-json"]
+    }
+  ]
+}

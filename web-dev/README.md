@@ -18,3 +18,7 @@ Multi-agent web dev pipeline — UX research and design critique before and afte
 ```
 /plugin install web-dev@hasbrains-agent-kit
 ```
+
+---
+
+Made by **HasBrains** — https://hasbrains.com/

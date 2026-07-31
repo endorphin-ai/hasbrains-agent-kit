@@ -223,3 +223,7 @@ Load when needed — not all at once:
 - **`references/engineering-patterns.md`** — CoT, few-shot, role prompting, anti-patterns
 - **`references/output-templates.md`** — Structure templates and checklists
 - **`references/safety-security.md`** — Injection prevention, bias, compliance
+
+---
+
+Made by **HasBrains** — https://hasbrains.com/

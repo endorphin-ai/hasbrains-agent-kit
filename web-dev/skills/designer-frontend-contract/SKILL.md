@@ -144,3 +144,7 @@ This SKILL.md is a MAP. Detail lives in `workflows/` (the three role playbooks) 
 ---
 
 VERSION 2.0
+
+---
+
+Made by **HasBrains** — https://hasbrains.com/

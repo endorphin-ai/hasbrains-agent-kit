@@ -62,3 +62,7 @@ For multi-step tasks, state a brief plan with a verify check per step:
 ```
 
 Then execute and loop on each step until its verify check passes. Do not claim a step (or the task) is done until its check actually passes — confirm the evidence, don't assert it.
+
+---
+
+Made by **HasBrains** — https://hasbrains.com/

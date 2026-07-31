@@ -388,3 +388,7 @@ Otherwise → not TDD
 ```
 
 No exceptions without your human partner's permission.
+
+---
+
+Made by **HasBrains** — https://hasbrains.com/

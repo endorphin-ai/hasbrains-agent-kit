@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
-# pipeline-state.sh — durable squad-wide handoff-bus state (all worker agents + el-capitan)
+# pipeline-state.sh — durable run-wide handoff-bus state (the orchestrator + every worker agent)
 # Usage: pipeline-state.sh <init|set|append|get|clear> <session_id> [field] [value]
 #
-# State file (PER-SESSION, git-ignored): .ai_log/session-<session_id>.json  (one per run; el-capitan
-#   `init`s it at session start and passes its PATH as state_file to every agent). It lives under
-#   .ai_log/, so it is git-ignored (never committed) by the /.ai_log/* rule — the ephemeral machine
-#   handoff bus, NOT a durable record (durable records live in docs/, R7/R8).
+# State file (PER-SESSION, git-ignored): .ai_log/session-<session_id>.json  (one per run; the
+#   orchestrator `init`s it at session start and passes its PATH as state_file to every agent). It
+#   lives under .ai_log/, so it is git-ignored (never committed) by the /.ai_log/* rule — the ephemeral
+#   machine handoff bus, NOT a durable record (durable records live in committed docs/).
 # <session_id> is the run LABEL (convention: <YYYY-MM-DD>-<epic-slug> = <id>-<name>); the file PATH is
 #   DERIVED from it (session-<session_id>.json), so every command resolves the same per-session file.
 
@@ -25,7 +25,7 @@ if [ -z "$CMD" ] || [ -z "$SESSION" ]; then
 fi
 
 # Per-session, git-ignored state file under .ai_log/ — DERIVED from the session label.
-# el-capitan `init`s it and passes this exact PATH as state_file to every agent.
+# The orchestrator `init`s it and passes this exact PATH as state_file to every agent.
 FILE="$AI_LOG/session-${SESSION}.json"
 
 case "$CMD" in

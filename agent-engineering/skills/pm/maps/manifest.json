@@ -1,0 +1,27 @@
+{
+  "skill": "pm",
+  "version": "1.0",
+  "kind": "second-brain",
+  "entry": "SKILL.md",
+  "maps": { "index": "maps/index.json", "tags": "maps/tags.json", "links": "maps/links.json" },
+  "companions": ["FORMAT.md", "VOICE.md"],
+  "workflows": [
+    "workflows/prd.md",
+    "workflows/roadmap.md",
+    "workflows/brainstorm.md",
+    "workflows/acceptance.md",
+    "workflows/standup.md",
+    "workflows/scope-guard.md"
+  ],
+  "references": ["references/roadmap-json.md", "references/standup-data-sources.md"],
+  "note_count": 8,
+  "required_companion_skill": {
+    "name": "docs-project-management",
+    "why": "Defines every file this PM writes — work-item taxonomy, link graph, status lifecycle, frontmatter fields, test-case template, bug + RCA format, team work-reporting.",
+    "url": "https://github.com/endorphin-ai/hasbrains-agent-kit/tree/main/agent-engineering/skills/docs-project-management"
+  },
+  "optional_companion_skills": ["brainstorming", "build-brain", "pipeline-state", "four-principles", "verification-before-completion", "ux-expert"],
+  "project_facts_source": "the project's own config + spec (this kit's convention: docs/project_config/info.md + a spec file)",
+  "modes": ["prd", "roadmap", "brainstorm", "acceptance", "standup"],
+  "continuous": ["scope-guard"]
+}

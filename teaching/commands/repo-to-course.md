@@ -506,3 +506,7 @@ Apply any of these the user passes as extra arguments (they modify Phase 3):
 - "Include Mermaid diagrams for architecture sections."
 - "Add a glossary of terms as the final section."
 - "Include estimated reading time per section, not just per tutorial."
+
+---
+
+Made by **HasBrains** — https://hasbrains.com/

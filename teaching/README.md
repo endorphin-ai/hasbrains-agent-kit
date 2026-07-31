@@ -19,3 +19,7 @@ Drop your files here:
 ```
 /plugin install teaching@hasbrains-agent-kit
 ```
+
+---
+
+Made by **HasBrains** — https://hasbrains.com/

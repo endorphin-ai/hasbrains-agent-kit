@@ -1,6 +1,6 @@
 ---
 name: system-architecture
-description: "Use when designing a system, choosing an architecture pattern, making a technology decision, or doing capacity/scalability planning — BEFORE drilling into framework-specific mechanics. A lean MAP over three reference docs: pattern selection (monolith → modular monolith → microservices → event-driven → CQRS → event sourcing → hexagonal → clean → API gateway, with trade-offs), the how-to system-design workflows (system-design-interview approach, capacity planning, API design, DB schema design, scalability assessment, migration planning), and the technology-choice frameworks (database, caching, message queue, auth, frontend framework, cloud provider, API style). Trigger on: 'design the system', 'choose an architecture pattern', 'which pattern fits', 'tech decision', 'SQL or NoSQL', 'REST vs GraphQL vs gRPC', 'capacity/scalability planning', 'plan the migration'. This is general system-design knowledge; for Phoenix bounded-context/Ecto/authz/Oban specifics use the architecture-phx skill."
+description: "Use when designing a system, choosing an architecture pattern, making a technology decision, or doing capacity/scalability planning — BEFORE drilling into framework-specific mechanics. A lean MAP over three reference docs: pattern selection (monolith → modular monolith → microservices → event-driven → CQRS → event sourcing → hexagonal → clean → API gateway, with trade-offs), the how-to system-design workflows (system-design-interview approach, capacity planning, API design, DB schema design, scalability assessment, migration planning), and the technology-choice frameworks (database, caching, message queue, auth, frontend framework, cloud provider, API style). Trigger on: 'design the system', 'choose an architecture pattern', 'which pattern fits', 'tech decision', 'SQL or NoSQL', 'REST vs GraphQL vs gRPC', 'capacity/scalability planning', 'plan the migration'. This is general, technology-agnostic system-design knowledge — it informs the decisions that come BEFORE any framework-specific mechanics."
 ---
 
 TASKLANG
@@ -15,10 +15,10 @@ IDENTITY "System Architecture"
   > Read the map, then open the one reference that matches the question.
 
 !!! References FIRST — this SKILL.md only routes; the answers live in references/.
-!!! This is technology-AGNOSTIC system design. For Phoenix/Ecto/Oban/can?/3
-!!! specifics (bounded contexts, schema tables, the verify gate), use the
-!!! architecture-phx skill — system-architecture supports the PLANNING that
-!!! precedes those mechanics.
+!!! This is technology-AGNOSTIC system design. Framework-specific mechanics —
+!!! this stack's module/context boundaries, its ORM schema and migration syntax,
+!!! its background-job and authorization APIs — belong to a stack-specific skill.
+!!! system-architecture supports the PLANNING that precedes those mechanics.
 
 ---
 
@@ -31,7 +31,7 @@ KNOWLEDGE
     - "Running a system-design workflow — capacity planning, API design, schema design, scalability assessment, migration planning."
     - "Doing the PLAN-FIRST step of a design: settle pattern + data/access model + boundaries before drilling into framework mechanics."
   NOT_FOR
-    - "Phoenix-specific bounded-context / Ecto schema / Oban / can?/3 policy design — that is the architecture-phx skill."
+    - "Framework-specific module/schema/job/authorization mechanics — that belongs to a stack-specific architecture skill."
     - "Writing or verifying implementation code — this skill informs design decisions, it does not produce code."
 
 ---
@@ -58,9 +58,13 @@ MAP references
 
 ---
 
-## How it fits the squad
+## How it fits a build
 
 KNOWLEDGE
   FITS
-    - "Supporting knowledge for the architect-phx agent's DESIGN mode (phase 2): consulted during the PLAN-FIRST step (pattern selection + tech decisions + the system-design workflows) BEFORE the Phoenix-specific technical sub-steps."
-    - "Does NOT replace architecture-phx: that skill owns the Phoenix bounded-context/Ecto/Oban/can?/3 policy mechanics and the verify gate; this skill informs the architectural choices that feed them."
+    - "Supporting knowledge for the architecture role's DESIGN pass: consulted during the PLAN-FIRST step (pattern selection + tech decisions + the system-design workflows) BEFORE any stack-specific technical sub-steps."
+    - "Does NOT replace a stack-specific architecture skill: that one owns the framework mechanics and the verify gate; this one informs the architectural choices that feed them."
+
+---
+
+Made by **HasBrains** — https://hasbrains.com/
