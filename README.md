@@ -64,14 +64,14 @@ Raw prompt library lives in [`prompts/`](prompts) — standalone prompts that do
 Output styles live in [`output-styles/`](output-styles) — they change how Claude Code writes, not what it does. Copy one into your styles folder and select it:
 
 ```
-cp output-styles/andrew.md ~/.claude/output-styles/
+cp output-styles/asd-ste100.md ~/.claude/output-styles/
 ```
 
-Then run `/output-style` and pick it, or `/output-style andrew`. Drop the file into a project's `.claude/output-styles/` instead to scope it to that repo.
+Then run `/output-style` and pick it, or `/output-style asd-ste100`. Drop the file into a project's `.claude/output-styles/` instead to scope it to that repo.
 
 | Style | What it does |
 |---|---|
-| [`andrew`](output-styles/andrew.md) | Concise, direct, technical writing based on ASD-STE100 Simplified Technical English. Result first, one idea per sentence, no filler or marketing language. Keeps coding instructions intact. |
+| [`asd-ste100`](output-styles/asd-ste100.md) | Concise, direct, technical writing based on ASD-STE100 Simplified Technical English. Result first, one idea per sentence, no filler or marketing language. Keeps coding instructions intact. |
 
 ## Design principles
 
