@@ -59,6 +59,20 @@ Raw prompt library lives in [`prompts/`](prompts) — standalone prompts that do
 - **Paste it** — copy the file's content straight into your conversation.
 - **Make it a slash command** — copy the file into `~/.claude/commands/` (or your project's `.claude/commands/`) and it becomes invocable by filename, e.g. `my-prompt.md` → `/my-prompt`.
 
+## Using the output styles
+
+Output styles live in [`output-styles/`](output-styles) — they change how Claude Code writes, not what it does. Copy one into your styles folder and select it:
+
+```
+cp output-styles/andrew.md ~/.claude/output-styles/
+```
+
+Then run `/output-style` and pick it, or `/output-style andrew`. Drop the file into a project's `.claude/output-styles/` instead to scope it to that repo.
+
+| Style | What it does |
+|---|---|
+| [`andrew`](output-styles/andrew.md) | Concise, direct, technical writing based on ASD-STE100 Simplified Technical English. Result first, one idea per sentence, no filler or marketing language. Keeps coding instructions intact. |
+
 ## Design principles
 
 This kit follows a strict separation of concerns:
