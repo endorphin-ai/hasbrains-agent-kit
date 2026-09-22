@@ -140,7 +140,9 @@ case "$agent_name" in
   claude-code-guide|statusline-setup) exit 0 ;;
 esac
 
-finished_epoch=$(date +%s)   # when this agent completed (for the row's date/time)
+# When this agent completed (for the row's date/time): its last transcript
+# activity, else now. Same moment for a live run; the real time on a replay.
+finished_epoch="$ls"; [[ "$finished_epoch" =~ ^[0-9]+$ ]] || finished_epoch=$(date +%s)
 
 # Identity of THIS agent run. Many agents share a name (a batch of 42 "mine-bugs",
 # several "Explore"), so rows are keyed by agent id, never by name.
@@ -168,7 +170,7 @@ take_lock() { local i=0; until mkdir "$1" 2>/dev/null; do i=$((i+1)); [ $i -gt 1
 # Same name in the same session → one row that aggregates every run of it
 # (count ×N, summed cost/tokens/tools). Same name in a new session → fresh row.
 # Locked: parallel agents finish at the same moment and would lose updates.
-history_file="$HOME/.claude/subagent-history.json"
+history_file="${STATUSLINE_HISTORY_FILE:-$HOME/.claude/subagent-history.json}"
 take_lock "$run_dir/.lock-history"
 [ -f "$history_file" ] || put "$history_file" '[]'
 updated=$(jq --argjson r "$row" --arg sid "$sid" '
@@ -178,7 +180,8 @@ updated=$(jq --argjson r "$row" --arg sid "$sid" '
   | [{ agent_name: $r.agent_name, session: $sid, count: ($mem | length), members: $mem,
        context_pct: $r.context_pct,
        model: ($mem | reduce .[].model as $x ([]; if index([$x]) then . else . + [$x] end) | join("+")),
-       cost_usd: ($mem | map(.cost_usd | tonumber? // 0) | add | . * 100 | round / 100 | tostring),
+       cost_usd: ($mem | map(.cost_usd | tonumber? // 0) | add | . * 100 | round   # cents → "6.90"
+                  | "\(. / 100 | floor).\(. % 100 | tostring | if length < 2 then "0" + . else . end)"),
        tokens_in:    ($mem | map(.tokens_in    // 0) | add),
        tokens_out:   ($mem | map(.tokens_out   // 0) | add),
        duration_sec: ($mem | map(.duration_sec // 0) | add),
@@ -193,6 +196,8 @@ rmdir "$run_dir/.lock-history" 2>/dev/null
 # The run that recorded this agent's tool_use_id at launch owns it: the open run,
 # or the previous one (archived when a new /command or skill started). Agents
 # with no recorded launch go to the open run. No ledger = a plain chat turn.
+# Replay (rebuild-history.sh) only rebuilds the history — never touch live runs.
+[ "${STATUSLINE_REPLAY:-}" = "1" ] && exit 0
 [ -n "$sid" ] || exit 0
 active="$run_dir/active-$sid.json"
 prev="$run_dir/prev-$sid.json"

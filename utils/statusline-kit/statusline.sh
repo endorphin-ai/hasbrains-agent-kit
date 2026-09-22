@@ -163,9 +163,10 @@ if [ -f "$history_file" ]; then
     sub_bar=$(build_bar "$spct")
     # A batch of same-name agents in one session is one row: "mine-bugs ×42".
     if [[ "$scount" =~ ^[0-9]+$ ]] && [ "$scount" -gt 1 ]; then
-      suffix=" ×${scount}"
-      name_pad="$(printf '%.*s' $(( 18 - ${#suffix} )) "$sname")${suffix}"
-      name_pad=$(printf '%-18s' "$name_pad")
+      # Pad by hand: "×" is 2 bytes, and printf pads by bytes, not characters.
+      suffix_w=$(( 2 + ${#scount} ))                      # " ×" + digits, in columns
+      head=$(printf '%.*s' $(( 18 - suffix_w )) "$sname")
+      name_pad="${head} ×${scount}$(printf '%*s' $(( 18 - ${#head} - suffix_w )) '')"
     else
       name_pad=$(printf '%-18.18s' "$sname")
     fi

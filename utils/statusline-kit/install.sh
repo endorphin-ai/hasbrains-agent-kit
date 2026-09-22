@@ -139,6 +139,7 @@ echo
 say "Notes:"
 say "• Change prices: edit $PRICES_SRC, then run: $KIT_DIR/install.sh --prices"
 say "  Do not edit ~/.claude/statusline-prices.json — the installer overwrites it."
+say "• Updated the kit or prices? Re-price old rows: $KIT_DIR/rebuild-history.sh"
 say "• Cost is an ESTIMATE at list rates, not billed cost."
 say "• Context % assumes a 1M window for fable/opus/sonnet. On a 200k window, export"
 say "  CLAUDE_AGENT_CTX_WINDOW=200000."

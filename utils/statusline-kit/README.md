@@ -82,7 +82,22 @@ You can keep the kit folder anywhere; nothing links back to it after install.
 
 Do not edit `~/.claude/statusline-prices.json` — the next install overwrites it (it keeps a `.bak`).
 
-New rates apply to agents that finish **after** the update. Rows already shown keep their old cost.
+New rates apply to agents that finish **after** the update. To re-price the rows already shown,
+rebuild the history (next section).
+
+## Rebuild the history
+
+The `· agent …` rows are stored when each agent finishes. After a kit update that changes how agents
+are counted or priced — or after a price change — old rows keep their old values. Rebuild them from
+the saved transcripts:
+
+```bash
+./rebuild-history.sh            # last 7 days
+./rebuild-history.sh --days 30  # a longer window
+```
+
+It replays every subagent transcript in `~/.claude/projects`, in the order the agents finished, through
+the kit's own hook. It backs up the current history first and never touches the run ledgers or reports.
 
 ### How an agent is priced
 
@@ -128,6 +143,7 @@ To test a price file without installing it, point the hook at it: `export CLAUDE
 | `hooks/pre-tool-use.sh` | `PreToolUse` on `Skill\|Agent\|Task`: opens a run for a skill Claude loads itself (or adds it to the open run), and records each agent launch so the run stays open until it finishes. |
 | `prices.json` | Per-model rates (USD / 1M tokens) — the single price source. Installed as `~/.claude/statusline-prices.json`. |
 | `settings-snippet.json` | The `statusLine` + `hooks` wiring to merge into `settings.json`. |
+| `rebuild-history.sh` | Rebuilds the agent rows from saved transcripts (after an update or a price change). |
 | `install.sh` | Copies files + merges settings, with backups. `--prices` re-installs only the prices. |
 
 Runtime files (`runs/`, `subagent-history.json`) are created automatically — don't copy anyone else's.
