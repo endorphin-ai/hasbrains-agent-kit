@@ -1,0 +1,19 @@
+{
+  "_help": [
+    "SOURCE OF TRUTH for statusline prices. USD per 1M tokens, used for the per-agent $ estimate.",
+    "After editing, run: ./install.sh --prices  (copies this file to ~/.claude/statusline-prices.json).",
+    "'match' is a substring of the model id (e.g. claude-opus-5-5). The first match wins,",
+    "so keep specific ids (opus-5-5) above generic ones (opus).",
+    "'default' names the 'match' of the entry to use when no entry matches.",
+    "cache_write / cache_read are optional: they default to 1.25x and 0.10x of input."
+  ],
+  "default": "opus-5-5",
+  "models": [
+    { "match": "fable-5-1", "label": "fable",  "input": 10, "output": 50, "cache_write": 12.5, "cache_read": 0.25 },
+    { "match": "fable",     "label": "fable",  "input": 10, "output": 50, "cache_write": 12.5, "cache_read": 1.00 },
+    { "match": "opus-5-5",  "label": "opus",   "input": 4,  "output": 20, "cache_write": 5.00, "cache_read": 0.20 },
+    { "match": "opus",      "label": "opus",   "input": 5,  "output": 25, "cache_write": 6.25, "cache_read": 0.50 },
+    { "match": "sonnet",    "label": "sonnet", "input": 3,  "output": 15, "cache_write": 3.75, "cache_read": 0.30 },
+    { "match": "haiku",     "label": "haiku",  "input": 1,  "output": 5,  "cache_write": 1.25, "cache_read": 0.10 }
+  ]
+}

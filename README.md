@@ -73,6 +73,19 @@ Then run `/output-style` and pick it, or `/output-style asd-ste100`. Drop the fi
 |---|---|
 | [`asd-ste100`](output-styles/asd-ste100.md) | Concise, direct, technical writing based on ASD-STE100 Simplified Technical English. Result first, one idea per sentence, no filler or marketing language. Keeps coding instructions intact. |
 
+## Using the utils
+
+Utils live in [`utils/`](utils) — standalone tools for your Claude Code setup, not plugins. Each has its own installer:
+
+```
+git clone --depth 1 https://github.com/endorphin-ai/hasbrains-agent-kit.git
+cd hasbrains-agent-kit/utils/statusline-kit && ./install.sh
+```
+
+| Util | What it does |
+|---|---|
+| [`statusline-kit`](utils/statusline-kit) | Live status line: the active `/command` or skill run with a timer, per-subagent context bar, model, tokens, tool calls and estimated cost (priced per message from one editable `prices.json`), plus the session cost. One-command install, safe to re-run. |
+
 ## Design principles
 
 This kit follows a strict separation of concerns:
