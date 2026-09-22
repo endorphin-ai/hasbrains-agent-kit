@@ -26,13 +26,21 @@ active="$run_dir/active-$sid.json"
 now=$(date +%s)
 now_iso=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 
+# Atomic write: readers never see a half-written or empty file (mv is atomic).
+put() { local t="$1.tmp.$$"; printf '%s\n' "$2" > "$t" && mv -f "$t" "$1"; }
+# Never lose the previous run: finalize it (writes its report) and keep it as
+# prev-<sid>.json, so its agents that are still running land in it when done.
+[ -f "$active" ] && bash "$HOME/.claude/hooks/stop.sh" --refresh "$active" "$sid" </dev/null
+
 # Atomic-ish lock (macOS has no flock): mkdir succeeds for exactly one writer.
 lock="$run_dir/.lock-$sid"
-i=0; until mkdir "$lock" 2>/dev/null; do i=$((i+1)); [ $i -gt 40 ] && break; sleep 0.05; done
+i=0; until mkdir "$lock" 2>/dev/null; do i=$((i+1)); [ $i -gt 100 ] && break; sleep 0.05; done
+[ -f "$active" ] && mv -f "$active" "$run_dir/prev-$sid.json"
 
-jq -n --arg c "$cmd" --arg cwd "$cwd" --argjson s "$now" --arg si "$now_iso" \
-  '{command:$c, cwd:$cwd, start_epoch:$s, start_iso:$si, done:false, end_epoch:null, agents:[]}' \
-  > "$active" 2>/dev/null
+new=$(jq -n --arg c "$cmd" --arg cwd "$cwd" --argjson s "$now" --arg si "$now_iso" \
+  '{command:$c, source:"command", cwd:$cwd, start_epoch:$s, start_iso:$si, done:false, turn_ended:false,
+    end_epoch:null, agents:[], launched:[], skills:[]}' 2>/dev/null)
+[ -n "$new" ] && put "$active" "$new"
 
 rmdir "$lock" 2>/dev/null
 exit 0

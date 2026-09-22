@@ -142,43 +142,73 @@ esac
 
 finished_epoch=$(date +%s)   # when this agent completed (for the row's date/time)
 
-# Maintain a rolling history of the last 8 UNIQUE agents (most recent first).
-# Re-running an agent moves it to the top instead of creating a duplicate.
-history_file=~/.claude/subagent-history.json
-[ -f "$history_file" ] || echo '[]' > "$history_file"
-updated=$(jq \
-  --arg n "$agent_name" \
-  --argjson p "$pct" \
-  --arg m "$model" \
-  --arg c "$cost" \
-  --argjson ti "$total" \
-  --argjson to "$out" \
-  --argjson d "$dur" \
-  --argjson tc "$tool_calls" \
-  --argjson fe "$finished_epoch" \
-  '[{agent_name:$n, context_pct:$p, model:$m, cost_usd:$c, tokens_in:$ti, tokens_out:$to, duration_sec:$d, tool_calls:$tc, finished_epoch:$fe}]
-     + [.[] | select(.agent_name != $n)]
-   | .[0:8]' \
-  "$history_file" 2>/dev/null)
-[ -n "$updated" ] && printf '%s\n' "$updated" > "$history_file"
-
-# --- Append this agent to the active /command run ledger (for run reports) ---
-# Only track agents that belong to an OPEN command run (opened by the
-# UserPromptSubmit hook). No active ledger = a normal chat turn, not a command
-# run, so we skip it (the agent still shows in the last-5 history above).
+# Identity of THIS agent run. Many agents share a name (a batch of 42 "mine-bugs",
+# several "Explore"), so rows are keyed by agent id, never by name.
+agent_id=$(echo "$input" | jq -r '.agent_id // empty' 2>/dev/null)
+[ -n "$agent_id" ] || agent_id=$(basename "$transcript_path" .jsonl)
+agent_id=${agent_id#agent-}
+# The Agent/Task tool call that launched it (links it to the run that launched it).
+tool_use_id=$(jq -r '.toolUseId // empty' "${transcript_path%.jsonl}.meta.json" 2>/dev/null)
 sid=$(echo "$input" | jq -r '.session_id // empty' 2>/dev/null)
-active="$HOME/.claude/runs/active-$sid.json"
-if [ -n "$sid" ] && [ -f "$active" ]; then
-  lock="$HOME/.claude/runs/.lock-$sid"
-  i=0; until mkdir "$lock" 2>/dev/null; do i=$((i+1)); [ $i -gt 40 ] && break; sleep 0.05; done
 
-  # Append this agent (dedupe by name, latest wins), preserving chronological order.
-  upd=$(jq \
-    --arg n "$agent_name" --argjson p "$pct" --arg m "$model" --arg c "$cost" \
-    --argjson ti "$total" --argjson to "$out" --argjson d "$dur" --argjson tc "$tool_calls" --argjson fe "$finished_epoch" \
-    '.agents = ([ .agents[] | select(.agent_name != $n) ]
-                + [{agent_name:$n, context_pct:$p, model:$m, cost_usd:$c, tokens_in:$ti, tokens_out:$to, duration_sec:$d, tool_calls:$tc, finished_epoch:$fe}])' \
-    "$active" 2>/dev/null)
-  [ -n "$upd" ] && printf '%s\n' "$upd" > "$active"
-  rmdir "$lock" 2>/dev/null
+row=$(jq -n -c \
+  --arg id "$agent_id" --arg tu "$tool_use_id" --arg n "$agent_name" --argjson p "$pct" \
+  --arg m "$model" --arg c "$cost" --argjson ti "$total" --argjson to "$out" \
+  --argjson d "$dur" --argjson tc "$tool_calls" --argjson fe "$finished_epoch" \
+  '{agent_id:$id, tool_use_id:$tu, agent_name:$n, context_pct:$p, model:$m, cost_usd:$c,
+    tokens_in:$ti, tokens_out:$to, duration_sec:$d, tool_calls:$tc, finished_epoch:$fe}')
+
+run_dir="$HOME/.claude/runs"
+mkdir -p "$run_dir"
+# Atomic write: readers never see a half-written or empty file (mv is atomic).
+put() { local t="$1.tmp.$$"; printf '%s\n' "$2" > "$t" && mv -f "$t" "$1"; }
+take_lock() { local i=0; until mkdir "$1" 2>/dev/null; do i=$((i+1)); [ $i -gt 100 ] && break; sleep 0.05; done; }
+
+# --- Rolling history: last 8 agent NAMES, most recent first ------------------
+# Same name in the same session → one row that aggregates every run of it
+# (count ×N, summed cost/tokens/tools). Same name in a new session → fresh row.
+# Locked: parallel agents finish at the same moment and would lose updates.
+history_file="$HOME/.claude/subagent-history.json"
+take_lock "$run_dir/.lock-history"
+[ -f "$history_file" ] || put "$history_file" '[]'
+updated=$(jq --argjson r "$row" --arg sid "$sid" '
+  ([.[] | select(.agent_name == $r.agent_name)] | first) as $old
+  | (if $old != null and $old.session == $sid then ($old.members // []) else [] end
+     | map(select(.agent_id != $r.agent_id)) + [$r]) as $mem
+  | [{ agent_name: $r.agent_name, session: $sid, count: ($mem | length), members: $mem,
+       context_pct: $r.context_pct,
+       model: ($mem | reduce .[].model as $x ([]; if index([$x]) then . else . + [$x] end) | join("+")),
+       cost_usd: ($mem | map(.cost_usd | tonumber? // 0) | add | . * 100 | round / 100 | tostring),
+       tokens_in:    ($mem | map(.tokens_in    // 0) | add),
+       tokens_out:   ($mem | map(.tokens_out   // 0) | add),
+       duration_sec: ($mem | map(.duration_sec // 0) | add),
+       tool_calls:   ($mem | map(.tool_calls   // 0) | add),
+       finished_epoch: $r.finished_epoch }]
+    + [.[] | select(.agent_name != $r.agent_name)]
+  | .[0:8]' "$history_file" 2>/dev/null)
+[ -n "$updated" ] && put "$history_file" "$updated"
+rmdir "$run_dir/.lock-history" 2>/dev/null
+
+# --- Run ledger: add this agent to the run that launched it -------------------
+# The run that recorded this agent's tool_use_id at launch owns it: the open run,
+# or the previous one (archived when a new /command or skill started). Agents
+# with no recorded launch go to the open run. No ledger = a plain chat turn.
+[ -n "$sid" ] || exit 0
+active="$run_dir/active-$sid.json"
+prev="$run_dir/prev-$sid.json"
+take_lock "$run_dir/.lock-$sid"
+target="$active"
+if [ -n "$tool_use_id" ] && [ -f "$prev" ] \
+   && jq -e --arg tu "$tool_use_id" '[.launched[]?.id] | index($tu)' "$prev" >/dev/null 2>&1 \
+   && ! jq -e --arg tu "$tool_use_id" '[.launched[]?.id] | index($tu)' "$active" >/dev/null 2>&1; then
+  target="$prev"
 fi
+[ -f "$target" ] || { rmdir "$run_dir/.lock-$sid" 2>/dev/null; exit 0; }
+
+upd=$(jq --argjson r "$row" '.agents = ([.agents[]? | select(.agent_id != $r.agent_id)] + [$r])' "$target" 2>/dev/null)
+[ -n "$upd" ] && put "$target" "$upd"
+rmdir "$run_dir/.lock-$sid" 2>/dev/null
+
+# Re-check whether the run is complete and refresh its report.
+bash "$HOME/.claude/hooks/stop.sh" --refresh "$target" "$sid" </dev/null
+exit 0

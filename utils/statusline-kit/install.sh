@@ -94,16 +94,21 @@ install_file "$KIT_DIR/statusline.sh"               "$CLAUDE_DIR/statusline.sh"
 install_file "$KIT_DIR/hooks/user-prompt-submit.sh" "$CLAUDE_DIR/hooks/user-prompt-submit.sh"
 install_file "$KIT_DIR/hooks/subagent-stop.sh"      "$CLAUDE_DIR/hooks/subagent-stop.sh"
 install_file "$KIT_DIR/hooks/stop.sh"               "$CLAUDE_DIR/hooks/stop.sh"
-install_file "$KIT_DIR/hooks/skill-load.sh"         "$CLAUDE_DIR/hooks/skill-load.sh"
+install_file "$KIT_DIR/hooks/pre-tool-use.sh"       "$CLAUDE_DIR/hooks/pre-tool-use.sh"
 install_file "$PRICES_SRC"                          "$PRICES_DST" 644
 
 # --- 3. Merge settings -----------------------------------------------------
 # statusLine is set to ours. Hooks are ADDED: each snippet hook is appended to
 # its event only if that command is not already there, so your other hooks
 # stay and a re-run adds no duplicates.
+# Hook commands from older kit versions are removed first (they were replaced).
 merge='
   $snip[0] as $s
+  | ["bash ~/.claude/hooks/skill-load.sh"] as $legacy
   | .statusLine = $s.statusLine
+  | if .hooks then .hooks |= (map_values(map(.hooks |= map(select(.command | IN($legacy[]) | not)))
+                                        | map(select((.hooks | length) > 0))))
+    else . end
   | reduce ($s.hooks | to_entries[]) as $e (.;
       reduce $e.value[] as $entry (.;
         [$entry.hooks[].command] as $cmds
@@ -124,6 +129,9 @@ else
   cp "$SNIPPET" "$SETTINGS"
   ok "settings.json — created from snippet"
 fi
+
+[ -f "$CLAUDE_DIR/hooks/skill-load.sh" ] && mv "$CLAUDE_DIR/hooks/skill-load.sh" "$CLAUDE_DIR/hooks/skill-load.sh.bak.$STAMP" \
+  && warn "retired old hook skill-load.sh (now pre-tool-use.sh) → skill-load.sh.bak.$STAMP"
 
 echo
 ok "Done. Restart Claude Code (or start a new session) to load the status line."

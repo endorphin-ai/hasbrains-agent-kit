@@ -97,6 +97,7 @@ if [ -n "$sid" ] && [ -f "$active" ]; then
   # the orchestrator's turn ends), falling back to the recorded end_epoch.
   r_end=$(jq -r '(([.agents[].finished_epoch // empty] | max) // .end_epoch // 0)' "$active" 2>/dev/null)
   r_n=$(jq -r '.agents | length' "$active" 2>/dev/null)
+  r_pending=$(jq -r '.pending // 0' "$active" 2>/dev/null)
   r_cost=$(jq -r '([.agents[] | (.cost_usd // "0") | if . == "" then 0 else tonumber end] | add // 0) * 100 | round / 100' "$active" 2>/dev/null)
 
   r_src=$(jq -r '.source // "command"' "$active" 2>/dev/null)
@@ -114,8 +115,10 @@ if [ -n "$sid" ] && [ -f "$active" ]; then
       time_chunk="${CLR_DIM}⏱${RST} ${CLR_GREEN}$(fmt_dur "$r_elapsed")${RST}"
     fi
     run_extra=""
-    if [ "${r_n:-0}" -gt 0 ] 2>/dev/null; then
-      run_extra="  ${CLR_DIM}·${RST} ${r_n} agents  ${CLR_DIM}·${RST} ${CLR_COST}\$${r_cost}${RST}"
+    running=""
+    [ "$r_done" != "true" ] && [ "${r_pending:-0}" -gt 0 ] 2>/dev/null && running=" ${CLR_DIM}(${r_pending} running)${RST}"
+    if [ "${r_n:-0}" -gt 0 ] 2>/dev/null || [ -n "$running" ]; then
+      run_extra="  ${CLR_DIM}·${RST} ${r_n:-0} agents${running}  ${CLR_DIM}·${RST} ${CLR_COST}\$${r_cost}${RST}"
     fi
     # This whole session's own spend (main loop + subagents), from the harness.
     sess_cost=$(echo "$input" | jq -r '(.cost.total_cost_usd // 0) | .*100 | round / 100' 2>/dev/null)
@@ -148,7 +151,7 @@ fmt_tokens() {
 # Show the last 8 unique subagents, most recent first.
 history_file="${HOME}/.claude/subagent-history.json"
 if [ -f "$history_file" ]; then
-  while IFS='|' read -r sname spct smodel scost s_in s_out sdur stools sdate; do
+  while IFS='|' read -r sname spct smodel scost s_in s_out sdur stools sdate scount; do
     [ -z "$sname" ] && continue
     if (( spct <= 50 )); then
       sub_color="$CLR_GREEN"
@@ -158,7 +161,14 @@ if [ -f "$history_file" ]; then
       sub_color="$CLR_RED"
     fi
     sub_bar=$(build_bar "$spct")
-    name_pad=$(printf '%-18.18s' "$sname")
+    # A batch of same-name agents in one session is one row: "mine-bugs ×42".
+    if [[ "$scount" =~ ^[0-9]+$ ]] && [ "$scount" -gt 1 ]; then
+      suffix=" ×${scount}"
+      name_pad="$(printf '%.*s' $(( 18 - ${#suffix} )) "$sname")${suffix}"
+      name_pad=$(printf '%-18s' "$name_pad")
+    else
+      name_pad=$(printf '%-18.18s' "$sname")
+    fi
     # model + $cost, shown only when recorded for the agent
     meta=""
     [ -n "$smodel" ] && meta="${meta} ${CLR_DIM}${smodel}${RST}"
@@ -178,5 +188,5 @@ if [ -f "$history_file" ]; then
       "$(fmt_dur "$sdur")" \
       "$toolchunk" \
       "$datechunk"
-  done < <(jq -r '.[] | [.agent_name, ((.context_pct // 0)|tostring), (.model // ""), (.cost_usd // ""), ((.tokens_in // .tokens // 0)|tostring), ((.tokens_out // 0)|tostring), ((.duration_sec // 0)|tostring), ((.tool_calls // 0)|tostring), (if .finished_epoch then (.finished_epoch | strflocaltime("%b %e %l:%M %p") | gsub("  +";" ")) else "" end)] | join("|")' "$history_file" 2>/dev/null)
+  done < <(jq -r '.[] | [.agent_name, ((.context_pct // 0)|tostring), (.model // ""), (.cost_usd // ""), ((.tokens_in // .tokens // 0)|tostring), ((.tokens_out // 0)|tostring), ((.duration_sec // 0)|tostring), ((.tool_calls // 0)|tostring), (if .finished_epoch then (.finished_epoch | strflocaltime("%b %e %l:%M %p") | gsub("  +";" ")) else "" end), ((.count // 1)|tostring)] | join("|")' "$history_file" 2>/dev/null)
 fi
