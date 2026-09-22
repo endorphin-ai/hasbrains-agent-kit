@@ -153,14 +153,42 @@ agent_id=${agent_id#agent-}
 tool_use_id=$(jq -r '.toolUseId // empty' "${transcript_path%.jsonl}.meta.json" 2>/dev/null)
 sid=$(echo "$input" | jq -r '.session_id // empty' 2>/dev/null)
 
+run_dir="$HOME/.claude/runs"
+active="$run_dir/active-$sid.json"
+prev="$run_dir/prev-$sid.json"
+# The run that launched this agent: the one that recorded its tool_use_id at
+# launch — the open run, or the previous one (archived when a new /command or
+# skill started). Agents with no recorded launch belong to the open run.
+owner_run() {
+  if [ -n "$tool_use_id" ] && [ -f "$prev" ] \
+     && jq -e --arg tu "$tool_use_id" '[.launched[]?.id] | index($tu)' "$prev" >/dev/null 2>&1 \
+     && ! jq -e --arg tu "$tool_use_id" '[.launched[]?.id] | index($tu)' "$active" >/dev/null 2>&1; then
+    echo "$prev"
+  else
+    echo "$active"
+  fi
+}
+
+# Origin of the agent, for the row icon: "command|/name", "skill|name" or "chat|".
+# A replay passes it in (read from the session transcript); live, it is the run's.
+if [ "${STATUSLINE_REPLAY:-}" = "1" ]; then
+  origin="${STATUSLINE_ORIGIN:-chat|}"
+else
+  origin="chat|"
+  o_run=$(owner_run)
+  [ -n "$sid" ] && [ -f "$o_run" ] && origin=$(jq -r '"\(.source // "command")|\(.command // "")"' "$o_run" 2>/dev/null)
+fi
+origin_kind=${origin%%|*}; origin_name=${origin#*|}
+
 row=$(jq -n -c \
   --arg id "$agent_id" --arg tu "$tool_use_id" --arg n "$agent_name" --argjson p "$pct" \
   --arg m "$model" --arg c "$cost" --argjson ti "$total" --argjson to "$out" \
   --argjson d "$dur" --argjson tc "$tool_calls" --argjson fe "$finished_epoch" \
+  --arg ok "$origin_kind" --arg on "$origin_name" \
   '{agent_id:$id, tool_use_id:$tu, agent_name:$n, context_pct:$p, model:$m, cost_usd:$c,
-    tokens_in:$ti, tokens_out:$to, duration_sec:$d, tool_calls:$tc, finished_epoch:$fe}')
+    tokens_in:$ti, tokens_out:$to, duration_sec:$d, tool_calls:$tc, finished_epoch:$fe,
+    origin:$ok, origin_name:$on}')
 
-run_dir="$HOME/.claude/runs"
 mkdir -p "$run_dir"
 # Atomic write: readers never see a half-written or empty file (mv is atomic).
 put() { local t="$1.tmp.$$"; printf '%s\n' "$2" > "$t" && mv -f "$t" "$1"; }
@@ -186,7 +214,8 @@ updated=$(jq --argjson r "$row" --arg sid "$sid" '
        tokens_out:   ($mem | map(.tokens_out   // 0) | add),
        duration_sec: ($mem | map(.duration_sec // 0) | add),
        tool_calls:   ($mem | map(.tool_calls   // 0) | add),
-       finished_epoch: $r.finished_epoch }]
+       finished_epoch: $r.finished_epoch,
+       origin: $r.origin, origin_name: $r.origin_name }]
     + [.[] | select(.agent_name != $r.agent_name)]
   | .[0:8]' "$history_file" 2>/dev/null)
 [ -n "$updated" ] && put "$history_file" "$updated"
@@ -199,15 +228,8 @@ rmdir "$run_dir/.lock-history" 2>/dev/null
 # Replay (rebuild-history.sh) only rebuilds the history — never touch live runs.
 [ "${STATUSLINE_REPLAY:-}" = "1" ] && exit 0
 [ -n "$sid" ] || exit 0
-active="$run_dir/active-$sid.json"
-prev="$run_dir/prev-$sid.json"
 take_lock "$run_dir/.lock-$sid"
-target="$active"
-if [ -n "$tool_use_id" ] && [ -f "$prev" ] \
-   && jq -e --arg tu "$tool_use_id" '[.launched[]?.id] | index($tu)' "$prev" >/dev/null 2>&1 \
-   && ! jq -e --arg tu "$tool_use_id" '[.launched[]?.id] | index($tu)' "$active" >/dev/null 2>&1; then
-  target="$prev"
-fi
+target=$(owner_run)
 [ -f "$target" ] || { rmdir "$run_dir/.lock-$sid" 2>/dev/null; exit 0; }
 
 upd=$(jq --argjson r "$row" '.agents = ([.agents[]? | select(.agent_id != $r.agent_id)] + [$r])' "$target" 2>/dev/null)

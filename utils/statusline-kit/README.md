@@ -4,23 +4,32 @@ A status line for Claude Code that shows, live:
 
 - the active `/command` run — name, a ticking timer that **freezes** when the run ends, agent count, and estimated cost;
 - skills Claude loads **on its own** (not typed as `/…`) — as a run of their own, or listed on the open `/command` run;
-- the whole session's cost (from the harness);
-- the current model + context-window usage bar;
+- the current model + context-window usage bar + the whole session's cost (from the harness) — always, even in plain chat;
 - the last 8 subagents — each with a context bar, model, estimated cost, tokens in/out, duration, **tool-call count**, and finish time.
   A batch of same-name agents in one session is one row with totals: `mine-bugs ×42`.
+  Each row starts with an icon for **what launched it** (see below).
 
 ```
-⚡ /review-pr  ✓ 1h 11m  · 5 agents  · $21.68  · session $33.8
-Opus 5.5 (1M context)  |  [#---------] 16%
-· test-investigator  [##--------] 29% sonnet $4.19  ↓294.3k ↑53.0k · 12m 2s 38 tools  - Sep 22 3:37 PM
-· risk-validator     [##--------] 27% sonnet $5.74  ↓278.9k ↑79.6k · 19m 51s 41 tools - Sep 22 1:25 PM
+⚡ /review-pr  ✓ 1h 11m  · 5 agents  · $21.68
+Opus 5.5 (1M context)  |  [#---------] 16%  · session $33.80
+/ test-investigator  [##--------] 29% sonnet $4.19  ↓294.3k ↑53.0k · 12m 2s 38 tools  - Sep 22 3:37 PM  ← /review-pr
+✦ Explore            [#---------] 14% opus $2.98    ↓145.3k ↑36.6k · 7m 48s 31 tools  - Sep 22 2:23 PM  ← dataviz
+· code-reviewer      [#---------] 16% opus $3.41    ↓164.1k ↑44.4k · 9m 14s 40 tools  - Sep 22 1:58 PM
 ...
 ```
+
+| Row icon | The agent was launched by |
+|---|---|
+| `/` | a typed `/command` |
+| `✦` | a skill Claude loaded on its own |
+| `·` | plain chat (no command or skill run open) |
+
+`← name` at the end of a row names that command or skill when it differs from the agent's name.
 
 Skill runs look like this:
 
 ```
-⚡ claude-api (skill)  ⏱ 1m 4s  · session $2.1                           ← Claude loaded a skill, no /command open
+⚡ claude-api (skill)  ⏱ 1m 4s                                             ← Claude loaded a skill, no /command open
 ⚡ /fix-bug  ⏱ 3m 10s  · 2 agents  · $1.84  · skills gh-cli, jira-mcp +1  ← skills loaded during /fix-bug
 ⚡ /mine-bugs  ⏱ 41m 2s  · 30 agents (12 running)  · $287.40                 ← background batch still working
 ```
@@ -97,7 +106,8 @@ the saved transcripts:
 ```
 
 It replays every subagent transcript in `~/.claude/projects`, in the order the agents finished, through
-the kit's own hook. It backs up the current history first and never touches the run ledgers or reports.
+the kit's own hook. The row icon is recovered from each session's transcript (the `/command` or skill
+that came before the launch). It backs up the current history first and never touches the run ledgers or reports.
 
 ### How an agent is priced
 

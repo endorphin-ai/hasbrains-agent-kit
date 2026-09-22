@@ -11,6 +11,7 @@ CLR_RED='\033[38;5;203m'     # red    (context <20%)
 CLR_DIM='\033[38;5;245m'     # dim gray (brackets / separators)
 CLR_COST='\033[38;5;179m'    # gold (per-agent $ cost)
 CLR_CMD='\033[38;5;215m'     # warm orange (command name)
+CLR_SKILL='\033[38;5;117m'   # sky blue (skill)
 RST='\033[0m'
 
 # Extract model display name
@@ -120,11 +121,6 @@ if [ -n "$sid" ] && [ -f "$active" ]; then
     if [ "${r_n:-0}" -gt 0 ] 2>/dev/null || [ -n "$running" ]; then
       run_extra="  ${CLR_DIM}·${RST} ${r_n:-0} agents${running}  ${CLR_DIM}·${RST} ${CLR_COST}\$${r_cost}${RST}"
     fi
-    # This whole session's own spend (main loop + subagents), from the harness.
-    sess_cost=$(echo "$input" | jq -r '(.cost.total_cost_usd // 0) | .*100 | round / 100' 2>/dev/null)
-    if [ -n "$sess_cost" ] && [ "$sess_cost" != "0" ]; then
-      run_extra="${run_extra}  ${CLR_DIM}· session${RST} ${CLR_COST}\$${sess_cost}${RST}"
-    fi
     [ -n "$r_skills" ] && run_extra="${run_extra}  ${CLR_DIM}· skills${RST} ${r_skills}"
     r_label="${CLR_CMD}${r_cmd}${RST}"
     [ "$r_src" = "skill" ] && r_label="${CLR_CMD}${r_cmd}${RST} ${CLR_DIM}(skill)${RST}"
@@ -132,8 +128,13 @@ if [ -n "$sid" ] && [ -f "$active" ]; then
   fi
 fi
 
-# Render: model name  |  context bar
-printf "${CLR_MODEL}%s${RST}  ${CLR_DIM}|${RST}  %b\n" "$model" "$ctx_part"
+# Render: model name  |  context bar  · session $ — always shown, run or not.
+# The session cost is this whole session's spend (main loop + subagents), from the harness.
+sess_cost=$(echo "$input" | jq -r '(.cost.total_cost_usd // 0) | . * 100 | round
+  | "\(. / 100 | floor).\(. % 100 | tostring | if length < 2 then "0" + . else . end)"' 2>/dev/null)
+sess_part=""
+[ -n "$sess_cost" ] && sess_part="  ${CLR_DIM}· session${RST} ${CLR_COST}\$${sess_cost}${RST}"
+printf "${CLR_MODEL}%s${RST}  ${CLR_DIM}|${RST}  %b%b\n" "$model" "$ctx_part" "$sess_part"
 
 # Humanize a token count: 98309 -> 98.3k, 1234567 -> 1.2M, 812 -> 812
 fmt_tokens() {
@@ -151,7 +152,7 @@ fmt_tokens() {
 # Show the last 8 unique subagents, most recent first.
 history_file="${HOME}/.claude/subagent-history.json"
 if [ -f "$history_file" ]; then
-  while IFS='|' read -r sname spct smodel scost s_in s_out sdur stools sdate scount; do
+  while IFS='|' read -r sname spct smodel scost s_in s_out sdur stools sdate scount sorigin sorigin_name; do
     [ -z "$sname" ] && continue
     if (( spct <= 50 )); then
       sub_color="$CLR_GREEN"
@@ -180,7 +181,17 @@ if [ -f "$history_file" ]; then
     # tool-call count, shown only when recorded (>0)
     toolchunk=""
     [[ "$stools" =~ ^[0-9]+$ ]] && [ "$stools" -gt 0 ] 2>/dev/null && toolchunk=" ${stools} tools"
-    printf "${CLR_DIM}·${RST} ${CLR_MODEL}%s${RST} %b%b  ${CLR_DIM}↓%s ↑%s · %s%s${RST}%b\n" \
+    # Origin icon: "/" launched by a typed /command, "✦" by a skill Claude
+    # loaded itself, "·" plain chat. "← /cmd" names it when it differs from the agent.
+    case "$sorigin" in
+      command) icon="${CLR_CMD}/${RST}" ;;
+      skill)   icon="${CLR_SKILL}✦${RST}" ;;
+      *)       icon="${CLR_DIM}·${RST}" ;;
+    esac
+    originchunk=""
+    [ -n "$sorigin_name" ] && [ "${sorigin_name#/}" != "$sname" ] && originchunk="  ${CLR_DIM}← ${sorigin_name}${RST}"
+    printf "%b ${CLR_MODEL}%s${RST} %b%b  ${CLR_DIM}↓%s ↑%s · %s%s${RST}%b%b\n" \
+      "$icon" \
       "$name_pad" \
       "${sub_color}[${sub_bar}]${RST} ${CLR_DIM}${spct}%${RST}" \
       "$meta" \
@@ -188,6 +199,7 @@ if [ -f "$history_file" ]; then
       "$(fmt_tokens "$s_out")" \
       "$(fmt_dur "$sdur")" \
       "$toolchunk" \
-      "$datechunk"
-  done < <(jq -r '.[] | [.agent_name, ((.context_pct // 0)|tostring), (.model // ""), (.cost_usd // ""), ((.tokens_in // .tokens // 0)|tostring), ((.tokens_out // 0)|tostring), ((.duration_sec // 0)|tostring), ((.tool_calls // 0)|tostring), (if .finished_epoch then (.finished_epoch | strflocaltime("%b %e %l:%M %p") | gsub("  +";" ")) else "" end), ((.count // 1)|tostring)] | join("|")' "$history_file" 2>/dev/null)
+      "$datechunk" \
+      "$originchunk"
+  done < <(jq -r '.[] | [.agent_name, ((.context_pct // 0)|tostring), (.model // ""), (.cost_usd // ""), ((.tokens_in // .tokens // 0)|tostring), ((.tokens_out // 0)|tostring), ((.duration_sec // 0)|tostring), ((.tool_calls // 0)|tostring), (if .finished_epoch then (.finished_epoch | strflocaltime("%b %e %l:%M %p") | gsub("  +";" ")) else "" end), ((.count // 1)|tostring), (.origin // ""), (.origin_name // "")] | join("|")' "$history_file" 2>/dev/null)
 fi
