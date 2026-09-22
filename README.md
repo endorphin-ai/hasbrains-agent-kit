@@ -84,7 +84,7 @@ cd hasbrains-agent-kit/utils/statusline-kit && ./install.sh
 
 | Util | What it does |
 |---|---|
-| [`statusline-kit`](utils/statusline-kit) | Live status line: the active `/command` or skill run with a timer, per-subagent context bar, model, tokens, tool calls and estimated cost (priced per message from one editable `prices.json`), plus the session cost. One-command install, safe to re-run. |
+| [`statusline-kit`](utils/statusline-kit) | Live status line: the active `/command` or skill run with a timer that waits for background agents, batches shown as `name ×N`, per-subagent context bar, model, tokens, tool calls and estimated cost (priced per message from one editable `prices.json`), plus the session cost. One-command install, safe to re-run. |
 
 ## Design principles
 

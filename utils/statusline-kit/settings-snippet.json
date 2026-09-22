@@ -38,11 +38,11 @@
     ],
     "PreToolUse": [
       {
-        "matcher": "Skill",
+        "matcher": "Skill|Agent|Task",
         "hooks": [
           {
             "type": "command",
-            "command": "bash ~/.claude/hooks/skill-load.sh"
+            "command": "bash ~/.claude/hooks/pre-tool-use.sh"
           }
         ]
       }

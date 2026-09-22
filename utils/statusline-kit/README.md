@@ -7,6 +7,7 @@ A status line for Claude Code that shows, live:
 - the whole session's cost (from the harness);
 - the current model + context-window usage bar;
 - the last 8 subagents — each with a context bar, model, estimated cost, tokens in/out, duration, **tool-call count**, and finish time.
+  A batch of same-name agents in one session is one row with totals: `mine-bugs ×42`.
 
 ```
 ⚡ /review-pr  ✓ 1h 11m  · 5 agents  · $21.68  · session $33.8
@@ -21,10 +22,20 @@ Skill runs look like this:
 ```
 ⚡ claude-api (skill)  ⏱ 1m 4s  · session $2.1                           ← Claude loaded a skill, no /command open
 ⚡ /fix-bug  ⏱ 3m 10s  · 2 agents  · $1.84  · skills gh-cli, jira-mcp +1  ← skills loaded during /fix-bug
+⚡ /mine-bugs  ⏱ 41m 2s  · 30 agents (12 running)  · $287.40                 ← background batch still working
 ```
 
 It also writes a per-run report (`~/.claude/runs/<command>-<stamp>.json` + `.md`) each time a
-`/command` dispatches agents.
+`/command` dispatches agents: totals, a per-agent-name summary, and every agent run.
+
+### How runs are tracked
+
+- A run is **complete** only when its turn has ended **and** every agent it launched has finished.
+  Background agents keep the timer running; the report is rewritten as each one finishes.
+- Every agent is counted separately (keyed by agent id, not name), so 42 agents of one type are 42 rows.
+- A new `/command` or skill never erases the previous run: it is finalized and kept as
+  `runs/prev-<session>.json`, and its late agents still land in it (matched by the launching tool call).
+- Launches with no finish after 2 hours are treated as lost, so a run can't stay open forever.
 
 ## Install
 
@@ -114,7 +125,7 @@ To test a price file without installing it, point the hook at it: `export CLAUDE
 | `hooks/user-prompt-submit.sh` | On a `/command`, opens a run ledger `runs/active-<sid>.json`. |
 | `hooks/subagent-stop.sh` | Appends each finished subagent (tokens, cost, tool count) to the ledger + `subagent-history.json`. |
 | `hooks/stop.sh` | Finalizes the ledger, freezes the timer, writes the run report. |
-| `hooks/skill-load.sh` | `PreToolUse` on the `Skill` tool: opens a run for a skill Claude loads itself, or adds it to the open run. |
+| `hooks/pre-tool-use.sh` | `PreToolUse` on `Skill\|Agent\|Task`: opens a run for a skill Claude loads itself (or adds it to the open run), and records each agent launch so the run stays open until it finishes. |
 | `prices.json` | Per-model rates (USD / 1M tokens) — the single price source. Installed as `~/.claude/statusline-prices.json`. |
 | `settings-snippet.json` | The `statusLine` + `hooks` wiring to merge into `settings.json`. |
 | `install.sh` | Copies files + merges settings, with backups. `--prices` re-installs only the prices. |
