@@ -4,23 +4,32 @@ A status line for Claude Code that shows, live:
 
 - the active `/command` run — name, a ticking timer that **freezes** when the run ends, agent count, and estimated cost;
 - skills Claude loads **on its own** (not typed as `/…`) — as a run of their own, or listed on the open `/command` run;
-- the whole session's cost (from the harness);
-- the current model + context-window usage bar;
+- the current model + context-window usage bar + the whole session's cost (from the harness) — always, even in plain chat;
 - the last 8 subagents — each with a context bar, model, estimated cost, tokens in/out, duration, **tool-call count**, and finish time.
   A batch of same-name agents in one session is one row with totals: `mine-bugs ×42`.
+  Each row ends with a tag for **what launched it** (see below).
 
 ```
-⚡ /review-pr  ✓ 1h 11m  · 5 agents  · $21.68  · session $33.8
-Opus 5.5 (1M context)  |  [#---------] 16%
-· test-investigator  [##--------] 29% sonnet $4.19  ↓294.3k ↑53.0k · 12m 2s 38 tools  - Sep 22 3:37 PM
-· risk-validator     [##--------] 27% sonnet $5.74  ↓278.9k ↑79.6k · 19m 51s 41 tools - Sep 22 1:25 PM
+⚡ /review-pr  ✓ 1h 11m  · 5 agents  · $21.68
+Opus 5.5 (1M context)  |  [#---------] 16%  · session $33.80
+· test-investigator  [##--------] 29% sonnet $4.19  ↓294.3k ↑53.0k · 12m 2s 38 tools  - Sep 22 3:37 PM  ← /review-pr
+· Explore            [#---------] 14% opus $2.98    ↓145.3k ↑36.6k · 7m 48s 31 tools  - Sep 22 2:23 PM  ← ✦ dataviz
+· code-reviewer      [#---------] 16% opus $3.41    ↓164.1k ↑44.4k · 9m 14s 40 tools  - Sep 22 1:58 PM
 ...
 ```
+
+The tag at the end of an agent row says **what launched it**:
+
+| Tag | The agent was launched by |
+|---|---|
+| `← /name` | a typed `/command` |
+| `← ✦ name` | a skill Claude loaded on its own |
+| *(none)* | plain chat (no command or skill run open) |
 
 Skill runs look like this:
 
 ```
-⚡ claude-api (skill)  ⏱ 1m 4s  · session $2.1                           ← Claude loaded a skill, no /command open
+⚡ claude-api (skill)  ⏱ 1m 4s                                             ← Claude loaded a skill, no /command open
 ⚡ /fix-bug  ⏱ 3m 10s  · 2 agents  · $1.84  · skills gh-cli, jira-mcp +1  ← skills loaded during /fix-bug
 ⚡ /mine-bugs  ⏱ 41m 2s  · 30 agents (12 running)  · $287.40                 ← background batch still working
 ```
@@ -82,7 +91,23 @@ You can keep the kit folder anywhere; nothing links back to it after install.
 
 Do not edit `~/.claude/statusline-prices.json` — the next install overwrites it (it keeps a `.bak`).
 
-New rates apply to agents that finish **after** the update. Rows already shown keep their old cost.
+New rates apply to agents that finish **after** the update. To re-price the rows already shown,
+rebuild the history (next section).
+
+## Rebuild the history
+
+The `· agent …` rows are stored when each agent finishes. After a kit update that changes how agents
+are counted or priced — or after a price change — old rows keep their old values. Rebuild them from
+the saved transcripts:
+
+```bash
+./rebuild-history.sh            # last 7 days
+./rebuild-history.sh --days 30  # a longer window
+```
+
+It replays every subagent transcript in `~/.claude/projects`, in the order the agents finished, through
+the kit's own hook. The launch tag is recovered from each session's transcript (the `/command` or skill
+that came before the launch). It backs up the current history first and never touches the run ledgers or reports.
 
 ### How an agent is priced
 
@@ -128,6 +153,7 @@ To test a price file without installing it, point the hook at it: `export CLAUDE
 | `hooks/pre-tool-use.sh` | `PreToolUse` on `Skill\|Agent\|Task`: opens a run for a skill Claude loads itself (or adds it to the open run), and records each agent launch so the run stays open until it finishes. |
 | `prices.json` | Per-model rates (USD / 1M tokens) — the single price source. Installed as `~/.claude/statusline-prices.json`. |
 | `settings-snippet.json` | The `statusLine` + `hooks` wiring to merge into `settings.json`. |
+| `rebuild-history.sh` | Rebuilds the agent rows from saved transcripts (after an update or a price change). |
 | `install.sh` | Copies files + merges settings, with backups. `--prices` re-installs only the prices. |
 
 Runtime files (`runs/`, `subagent-history.json`) are created automatically — don't copy anyone else's.
