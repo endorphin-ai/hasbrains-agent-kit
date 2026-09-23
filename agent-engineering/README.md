@@ -1,6 +1,6 @@
 # agent-engineering
 
-Engineering discipline for AI agent systems — always-on principles, TDD, verification gates, architecture playbooks, product management, and docs/-native project tracking.
+Engineering discipline for AI agent systems — always-on principles, TDD, verification gates, architecture playbooks, product management, docs/-native project tracking, and Claude Code → Copilot agent porting.
 
 ## Skills
 
@@ -10,6 +10,7 @@ Engineering discipline for AI agent systems — always-on principles, TDD, verif
 - [`system-architecture`](skills/system-architecture) — architecture pattern selection, system-design workflows, capacity planning, and technology-choice frameworks (SQL vs NoSQL, REST vs GraphQL, and more).
 - [`pm`](skills/pm) — the scope-disciplined product manager: author a build-ready PRD with testable acceptance gates, own the roadmap (epics + user stories decomposed across the complete user-flow graph + milestones), brainstorm before specifying, give one binary LAUNCH / NO-LAUNCH sign-off, and produce an evidence-based standup — plus a continuous scope guard that says no and cites the spec. Project facts are read at runtime; nothing is baked in.
 - [`docs-project-management`](skills/docs-project-management) — run an entire project from the repo's `docs/` folder: work-item taxonomy (roadmap → PRD → TRD → epics → stories → test cases → bugs), cross-document link graph, status lifecycle, and per-session team reports. No external issue tracker.
+- [`convert-to-copilot`](skills/convert-to-copilot) — port a Claude Code agent + its command + skills to one GitHub Copilot agent (`.github/agents/*.agent.md`) with `context/` and `trees/` files under `.copilot_utils/`: tool/model/frontmatter mapping, sub-agent handoffs, validation, and scaffold scripts for both directions.
 
 ## Components
 

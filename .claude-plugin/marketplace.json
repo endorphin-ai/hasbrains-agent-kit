@@ -11,7 +11,7 @@
     {
       "name": "agent-engineering",
       "source": "./agent-engineering",
-      "description": "Engineering discipline for AI agent systems — four always-on principles, test-driven development, verification-before-completion, system-architecture playbooks, a scope-disciplined product manager, and docs/-native project management.",
+      "description": "Engineering discipline for AI agent systems — four always-on principles, test-driven development, verification-before-completion, system-architecture playbooks, a scope-disciplined product manager, docs/-native project management, and Claude Code → GitHub Copilot agent conversion.",
       "category": "development"
     },
     {
