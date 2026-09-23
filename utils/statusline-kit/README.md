@@ -7,24 +7,24 @@ A status line for Claude Code that shows, live:
 - the current model + context-window usage bar + the whole session's cost (from the harness) — always, even in plain chat;
 - the last 8 subagents — each with a context bar, model, estimated cost, tokens in/out, duration, **tool-call count**, and finish time.
   A batch of same-name agents in one session is one row with totals: `mine-bugs ×42`.
-  Each row starts with an icon for **what launched it** (see below).
+  Each row ends with a tag for **what launched it** (see below).
 
 ```
 ⚡ /review-pr  ✓ 1h 11m  · 5 agents  · $21.68
 Opus 5.5 (1M context)  |  [#---------] 16%  · session $33.80
-/ test-investigator  [##--------] 29% sonnet $4.19  ↓294.3k ↑53.0k · 12m 2s 38 tools  - Sep 22 3:37 PM  ← /review-pr
-✦ Explore            [#---------] 14% opus $2.98    ↓145.3k ↑36.6k · 7m 48s 31 tools  - Sep 22 2:23 PM  ← dataviz
+· test-investigator  [##--------] 29% sonnet $4.19  ↓294.3k ↑53.0k · 12m 2s 38 tools  - Sep 22 3:37 PM  ← /review-pr
+· Explore            [#---------] 14% opus $2.98    ↓145.3k ↑36.6k · 7m 48s 31 tools  - Sep 22 2:23 PM  ← ✦ dataviz
 · code-reviewer      [#---------] 16% opus $3.41    ↓164.1k ↑44.4k · 9m 14s 40 tools  - Sep 22 1:58 PM
 ...
 ```
 
-| Row icon | The agent was launched by |
-|---|---|
-| `/` | a typed `/command` |
-| `✦` | a skill Claude loaded on its own |
-| `·` | plain chat (no command or skill run open) |
+The tag at the end of an agent row says **what launched it**:
 
-`← name` at the end of a row names that command or skill when it differs from the agent's name.
+| Tag | The agent was launched by |
+|---|---|
+| `← /name` | a typed `/command` |
+| `← ✦ name` | a skill Claude loaded on its own |
+| *(none)* | plain chat (no command or skill run open) |
 
 Skill runs look like this:
 
@@ -106,7 +106,7 @@ the saved transcripts:
 ```
 
 It replays every subagent transcript in `~/.claude/projects`, in the order the agents finished, through
-the kit's own hook. The row icon is recovered from each session's transcript (the `/command` or skill
+the kit's own hook. The launch tag is recovered from each session's transcript (the `/command` or skill
 that came before the launch). It backs up the current history first and never touches the run ledgers or reports.
 
 ### How an agent is priced

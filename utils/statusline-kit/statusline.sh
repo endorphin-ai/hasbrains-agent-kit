@@ -181,15 +181,15 @@ if [ -f "$history_file" ]; then
     # tool-call count, shown only when recorded (>0)
     toolchunk=""
     [[ "$stools" =~ ^[0-9]+$ ]] && [ "$stools" -gt 0 ] 2>/dev/null && toolchunk=" ${stools} tools"
-    # Origin icon: "/" launched by a typed /command, "✦" by a skill Claude
-    # loaded itself, "·" plain chat. "← /cmd" names it when it differs from the agent.
-    case "$sorigin" in
-      command) icon="${CLR_CMD}/${RST}" ;;
-      skill)   icon="${CLR_SKILL}✦${RST}" ;;
-      *)       icon="${CLR_DIM}·${RST}" ;;
-    esac
+    # Origin tag at the row's end: "← /cmd" launched by a typed /command,
+    # "← ✦ skill" by a skill Claude loaded itself, nothing for plain chat.
+    # Every agent row starts with "·" — "/" is only ever shown on a command.
+    icon="${CLR_DIM}·${RST}"
     originchunk=""
-    [ -n "$sorigin_name" ] && [ "${sorigin_name#/}" != "$sname" ] && originchunk="  ${CLR_DIM}← ${sorigin_name}${RST}"
+    case "$sorigin" in
+      command) [ -n "$sorigin_name" ] && originchunk="  ${CLR_DIM}←${RST} ${CLR_CMD}${sorigin_name}${RST}" ;;
+      skill)   [ -n "$sorigin_name" ] && originchunk="  ${CLR_DIM}←${RST} ${CLR_SKILL}✦ ${sorigin_name}${RST}" ;;
+    esac
     printf "%b ${CLR_MODEL}%s${RST} %b%b  ${CLR_DIM}↓%s ↑%s · %s%s${RST}%b%b\n" \
       "$icon" \
       "$name_pad" \

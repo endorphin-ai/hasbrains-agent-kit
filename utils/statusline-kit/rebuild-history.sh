@@ -100,4 +100,4 @@ jq -e 'type == "array"' "$tmp_hist" >/dev/null 2>&1 || { echo "Rebuild failed �
 [ -f "$HISTORY" ] && cp "$HISTORY" "$HISTORY.bak.$STAMP"
 mv -f "$tmp_hist" "$HISTORY"
 echo "Done. $(jq length "$HISTORY") rows rebuilt (backup: $(basename "$HISTORY").bak.$STAMP)."
-jq -r '.[] | "  \({command: "/", skill: "✦"}[.origin // ""] // "·") \(.agent_name)\(if (.count // 1) > 1 then " ×\(.count)" else "" end)  \(.model)  $\(.cost_usd)\(if (.origin_name // "") != "" then "  ← \(.origin_name)" else "" end)"' "$HISTORY"
+jq -r '.[] | "  · \(.agent_name)\(if (.count // 1) > 1 then " ×\(.count)" else "" end)  \(.model)  $\(.cost_usd)\(if (.origin_name // "") == "" then "" elif .origin == "skill" then "  ← ✦ \(.origin_name)" else "  ← \(.origin_name)" end)"' "$HISTORY"
