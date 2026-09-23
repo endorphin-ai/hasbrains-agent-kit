@@ -1,7 +1,7 @@
 {
   "name": "agent-engineering",
-  "version": "1.2.0",
-  "description": "Engineering discipline for AI agent systems — four always-on principles, test-driven development, verification-before-completion, system-architecture playbooks, a scope-disciplined product manager, and docs/-native project management.",
+  "version": "1.3.0",
+  "description": "Engineering discipline for AI agent systems — four always-on principles, test-driven development, verification-before-completion, system-architecture playbooks, a scope-disciplined product manager, docs/-native project management, and Claude Code → GitHub Copilot agent conversion.",
   "author": {
     "name": "Andrew Novykov",
     "url": "https://github.com/andrewnovykov"
@@ -18,6 +18,8 @@
     "product-management",
     "prd",
     "roadmap",
-    "acceptance-criteria"
+    "acceptance-criteria",
+    "github-copilot",
+    "copilot-agents"
   ]
 }
