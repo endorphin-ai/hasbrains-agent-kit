@@ -5,13 +5,14 @@ A status line for Claude Code that shows, live:
 - the active `/command` run — name, a ticking timer that **freezes** when the run ends, agent count, and estimated cost;
 - skills Claude loads **on its own** (not typed as `/…`) — as a run of their own, or listed on the open `/command` run;
 - the current model + context-window usage bar + the whole session's cost (from the harness) — always, even in plain chat;
+- *(optional, `--git`)* the current git branch, plus the worktree name when the session is in a linked `git worktree` (hidden outside a repo);
 - the last 8 subagents — each with a context bar, model, estimated cost, tokens in/out, duration, **tool-call count**, and finish time.
   A batch of same-name agents in one session is one row with totals: `mine-bugs ×42`.
   Each row ends with a tag for **what launched it** (see below).
 
 ```
 ⚡ /review-pr  ✓ 1h 11m  · 5 agents  · $21.68
-Opus 5.5 (1M context)  |  [#---------] 16%  · session $33.80
+Opus 5.5 (1M context)  |  [#---------] 16%  · session $33.80  |  ⎇ feat/review-pr-report  · worktree review-pr-report
 · test-investigator  [##--------] 29% sonnet $4.19  ↓294.3k ↑53.0k · 12m 2s 38 tools  - Sep 22 3:37 PM  ← /review-pr
 · Explore            [#---------] 14% opus $2.98    ↓145.3k ↑36.6k · 7m 48s 31 tools  - Sep 22 2:23 PM  ← ✦ dataviz
 · code-reviewer      [#---------] 16% opus $3.41    ↓164.1k ↑44.4k · 9m 14s 40 tools  - Sep 22 1:58 PM
@@ -58,11 +59,20 @@ cd hasbrains-agent-kit/utils/statusline-kit
 
 Restart Claude Code. That is all.
 
+To also show the git branch and worktree on the model line, install with `--git`:
+
+```bash
+./install.sh --git      # show it
+./install.sh --no-git   # hide it again
+```
+
+It is off on a first install. A plain `./install.sh` re-run keeps whatever you chose last.
+
 The installer:
 
 1. Checks `jq`, the `date` flavor and `prices.json`. If `prices.json` is broken, it stops before it copies anything.
 2. Copies `statusline.sh`, the four hooks and `prices.json` into `~/.claude/`.
-3. Merges the settings into `~/.claude/settings.json`: it sets `statusLine` and **adds** the four hooks.
+3. Merges the settings into `~/.claude/settings.json`: it sets `statusLine` (with `--git` on its command if you chose it) and **adds** the four hooks.
    Your other settings and hooks stay. A re-run adds no duplicates.
 
 Every changed file is backed up as `*.bak.<stamp>` first. Unchanged files are skipped, so a re-run is safe.
@@ -74,6 +84,7 @@ You can keep the kit folder anywhere; nothing links back to it after install.
    `chmod +x` all five.
 2. Copy `prices.json` → `~/.claude/statusline-prices.json`.
 3. Merge `settings-snippet.json` into `~/.claude/settings.json` (the `statusLine` and `hooks` blocks).
+   For the git branch/worktree, change the `statusLine` command to `bash ~/.claude/statusline.sh --git`.
 
 ## Update prices
 
@@ -154,7 +165,7 @@ To test a price file without installing it, point the hook at it: `export CLAUDE
 | `prices.json` | Per-model rates (USD / 1M tokens) — the single price source. Installed as `~/.claude/statusline-prices.json`. |
 | `settings-snippet.json` | The `statusLine` + `hooks` wiring to merge into `settings.json`. |
 | `rebuild-history.sh` | Rebuilds the agent rows from saved transcripts (after an update or a price change). |
-| `install.sh` | Copies files + merges settings, with backups. `--prices` re-installs only the prices. |
+| `install.sh` | Copies files + merges settings, with backups. `--git` / `--no-git` shows or hides the git branch/worktree. `--prices` re-installs only the prices. |
 
 Runtime files (`runs/`, `subagent-history.json`) are created automatically — don't copy anyone else's.
 

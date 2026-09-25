@@ -1,7 +1,10 @@
 #!/bin/bash
 # Claude Code status line — minimal: model + context bar
+# Usage: statusline.sh [--git]   --git also shows the git branch/worktree on the model line.
 
 input=$(cat)
+show_git=false
+[ "${1:-}" = "--git" ] && show_git=true
 
 # ANSI colors
 CLR_MODEL='\033[38;5;147m'   # light purple
@@ -12,6 +15,8 @@ CLR_DIM='\033[38;5;245m'     # dim gray (brackets / separators)
 CLR_COST='\033[38;5;179m'    # gold (per-agent $ cost)
 CLR_CMD='\033[38;5;215m'     # warm orange (command name)
 CLR_SKILL='\033[38;5;117m'   # sky blue (skill)
+CLR_BRANCH='\033[38;5;110m'  # steel blue (git branch)
+CLR_WT='\033[38;5;180m'      # tan (worktree name)
 RST='\033[0m'
 
 # Extract model display name
@@ -134,7 +139,23 @@ sess_cost=$(echo "$input" | jq -r '(.cost.total_cost_usd // 0) | . * 100 | round
   | "\(. / 100 | floor).\(. % 100 | tostring | if length < 2 then "0" + . else . end)"' 2>/dev/null)
 sess_part=""
 [ -n "$sess_cost" ] && sess_part="  ${CLR_DIM}· session${RST} ${CLR_COST}\$${sess_cost}${RST}"
-printf "${CLR_MODEL}%s${RST}  ${CLR_DIM}|${RST}  %b%b\n" "$model" "$ctx_part" "$sess_part"
+printf "${CLR_MODEL}%s${RST}  ${CLR_DIM}|${RST}  %b%b" "$model" "$ctx_part" "$sess_part"
+
+# Then on the same line (with --git): git branch, plus the worktree name when in a linked
+# worktree. Shown only inside a git repo. A linked worktree has its own git dir
+# (<common>/worktrees/<name>), so git-dir != git-common-dir; the main checkout and
+# submodules have the two equal.
+cwd=""
+$show_git && cwd=$(echo "$input" | jq -r '.workspace.current_dir // .cwd // empty' 2>/dev/null)
+if [ -n "$cwd" ] && git_paths=$(git -C "$cwd" rev-parse --path-format=absolute \
+    --git-dir --git-common-dir --show-toplevel 2>/dev/null); then
+  { read -r g_dir; read -r g_common; read -r g_top; } <<< "$git_paths"
+  branch=$(git -C "$cwd" symbolic-ref --short -q HEAD) \
+    || branch="detached $(git -C "$cwd" rev-parse --short HEAD 2>/dev/null)"
+  printf "  ${CLR_DIM}|${RST}  ${CLR_BRANCH}⎇ %s${RST}" "$branch"
+  [ "$g_dir" != "$g_common" ] && printf "  ${CLR_DIM}· worktree${RST} ${CLR_WT}%s${RST}" "${g_top##*/}"
+fi
+printf '\n'
 
 # Humanize a token count: 98309 -> 98.3k, 1234567 -> 1.2M, 812 -> 812
 fmt_tokens() {

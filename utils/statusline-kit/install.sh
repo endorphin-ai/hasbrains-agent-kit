@@ -5,8 +5,11 @@
 # of your config.
 #
 # Usage:  ./install.sh            full install (first time, or after any kit change)
+#         ./install.sh --git      full install + show the git branch/worktree on the status line
+#         ./install.sh --no-git   full install + hide the git branch/worktree
 #         ./install.sh --prices   only re-install prices.json (after editing prices)
 #
+# Without --git/--no-git, a re-run keeps the current git setting (off on a first install).
 # Safe to re-run: unchanged files are skipped, changed ones are backed up first.
 
 set -euo pipefail
@@ -20,12 +23,16 @@ PRICES_DST="$CLAUDE_DIR/statusline-prices.json"
 STAMP="$(date +%Y%m%d-%H%M%S)"
 
 MODE="full"
-case "${1:-}" in
-  "")       ;;
-  --prices) MODE="prices" ;;
-  -h|--help) sed -n '2,10p' "$0"; exit 0 ;;
-  *) printf 'Unknown option: %s (use --prices or --help)\n' "$1" >&2; exit 1 ;;
-esac
+GIT=""   # on | off | "" (keep the current setting)
+for arg in "$@"; do
+  case "$arg" in
+    --prices) MODE="prices" ;;
+    --git)    GIT="on" ;;
+    --no-git) GIT="off" ;;
+    -h|--help) sed -n '2,13p' "$0"; exit 0 ;;
+    *) printf 'Unknown option: %s (use --git, --no-git, --prices or --help)\n' "$arg" >&2; exit 1 ;;
+  esac
+done
 
 say()  { printf '  %s\n' "$*"; }
 ok()   { printf '  \033[38;5;78m✓\033[0m %s\n' "$*"; }
@@ -102,10 +109,14 @@ install_file "$PRICES_SRC"                          "$PRICES_DST" 644
 # its event only if that command is not already there, so your other hooks
 # stay and a re-run adds no duplicates.
 # Hook commands from older kit versions are removed first (they were replaced).
+# The git option is a "--git" argument on the statusLine command; with no
+# --git/--no-git flag, the current command decides.
 merge='
   $snip[0] as $s
   | ["bash ~/.claude/hooks/skill-load.sh"] as $legacy
+  | (if $git == "" then (.statusLine.command // "" | test("(^| )--git( |$)")) else $git == "on" end) as $with_git
   | .statusLine = $s.statusLine
+  | if $with_git then .statusLine.command += " --git" else . end
   | if .hooks then .hooks |= (map_values(map(.hooks |= map(select(.command | IN($legacy[]) | not)))
                                         | map(select((.hooks | length) > 0))))
     else . end
@@ -117,7 +128,7 @@ merge='
 if [ -f "$SETTINGS" ]; then
   jq -e . "$SETTINGS" >/dev/null 2>&1 || die "$SETTINGS is not valid JSON — fix it first, nothing was merged."
   tmp="$(mktemp)"
-  jq --slurpfile snip "$SNIPPET" "$merge" "$SETTINGS" > "$tmp"
+  jq --slurpfile snip "$SNIPPET" --arg git "$GIT" "$merge" "$SETTINGS" > "$tmp"
   if [ "$(jq -S . "$tmp")" = "$(jq -S . "$SETTINGS")" ]; then
     rm -f "$tmp"; ok "settings.json — already wired"
   else
@@ -126,8 +137,13 @@ if [ -f "$SETTINGS" ]; then
     ok "settings.json — merged (backup: settings.json.bak.$STAMP)"
   fi
 else
-  cp "$SNIPPET" "$SETTINGS"
+  jq -n --slurpfile snip "$SNIPPET" --arg git "$GIT" "{} | $merge" > "$SETTINGS"
   ok "settings.json — created from snippet"
+fi
+if jq -e '.statusLine.command | test("(^| )--git( |$)")' "$SETTINGS" >/dev/null 2>&1; then
+  ok "git branch/worktree — shown (hide with: ./install.sh --no-git)"
+else
+  ok "git branch/worktree — hidden (show with: ./install.sh --git)"
 fi
 
 [ -f "$CLAUDE_DIR/hooks/skill-load.sh" ] && mv "$CLAUDE_DIR/hooks/skill-load.sh" "$CLAUDE_DIR/hooks/skill-load.sh.bak.$STAMP" \
