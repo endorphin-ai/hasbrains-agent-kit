@@ -4,12 +4,16 @@
 # settings snippet into ~/.claude/settings.json WITHOUT clobbering the rest
 # of your config.
 #
-# Usage:  ./install.sh            full install (first time, or after any kit change)
-#         ./install.sh --git      full install + show the git branch/worktree on the status line
-#         ./install.sh --no-git   full install + hide the git branch/worktree
-#         ./install.sh --prices   only re-install prices.json (after editing prices)
+# Usage:  ./install.sh                                full install (first time, or after any kit change)
+#         ./install.sh statusline --git               full install + show git repo, branch and worktree
+#         ./install.sh statusline --git branch        ... only some parts: a comma list of
+#         ./install.sh statusline --git repo,branch       repo, branch, worktree
+#         ./install.sh statusline --no-git            full install + hide the git info
+#         ./install.sh --prices                       only re-install prices.json (after editing prices)
 #
-# Without --git/--no-git, a re-run keeps the current git setting (off on a first install).
+# Options are grouped by the area of the kit they change: the ones after "statusline"
+# set the status line. Without "statusline --git/--no-git", a re-run keeps the current
+# git setting (off on a first install).
 # Safe to re-run: unchanged files are skipped, changed ones are backed up first.
 
 set -euo pipefail
@@ -23,15 +27,29 @@ PRICES_DST="$CLAUDE_DIR/statusline-prices.json"
 STAMP="$(date +%Y%m%d-%H%M%S)"
 
 MODE="full"
-GIT=""   # on | off | "" (keep the current setting)
-for arg in "$@"; do
-  case "$arg" in
-    --prices) MODE="prices" ;;
-    --git)    GIT="on" ;;
-    --no-git) GIT="off" ;;
-    -h|--help) sed -n '2,13p' "$0"; exit 0 ;;
-    *) printf 'Unknown option: %s (use --git, --no-git, --prices or --help)\n' "$arg" >&2; exit 1 ;;
+GIT=""    # statusline --git/--no-git: the statusline.sh arg ("--git", "--git branch"),
+          # "off", or "" (keep the current setting)
+AREA=""   # the kit area the options that follow apply to
+GIT_PARTS_RE='^(repo|branch|worktree)(,(repo|branch|worktree))*$'
+while [ $# -gt 0 ]; do
+  case "$AREA:$1" in
+    *:--prices)          MODE="prices" ;;
+    *:-h|*:--help)       sed -n '2,17p' "$0"; exit 0 ;;
+    *:statusline)        AREA="statusline" ;;
+    statusline:--git)
+      GIT="--git"
+      # An optional parts list follows: --git branch, --git repo,worktree
+      if [ $# -gt 1 ] && [[ "$2" != -* ]] && [ "$2" != statusline ]; then
+        [[ "$2" =~ $GIT_PARTS_RE ]] || {
+          printf 'Unknown git part list: %s (use a comma list of repo, branch, worktree)\n' "$2" >&2; exit 1; }
+        GIT="--git $2"; shift
+      fi ;;
+    statusline:--no-git) GIT="off" ;;
+    :--git|:--no-git)
+      printf '%s is a status line option: ./install.sh statusline %s\n' "$1" "$1" >&2; exit 1 ;;
+    *) printf 'Unknown option: %s (use statusline --git [parts], statusline --no-git, --prices or --help)\n' "$1" >&2; exit 1 ;;
   esac
+  shift
 done
 
 say()  { printf '  %s\n' "$*"; }
@@ -109,14 +127,15 @@ install_file "$PRICES_SRC"                          "$PRICES_DST" 644
 # its event only if that command is not already there, so your other hooks
 # stay and a re-run adds no duplicates.
 # Hook commands from older kit versions are removed first (they were replaced).
-# The git option is a "--git" argument on the statusLine command; with no
-# --git/--no-git flag, the current command decides.
+# The statusline git option is a "--git [parts]" argument on the statusLine command;
+# with no "statusline --git/--no-git", the one on the current command is kept.
 merge='
   $snip[0] as $s
   | ["bash ~/.claude/hooks/skill-load.sh"] as $legacy
-  | (if $git == "" then (.statusLine.command // "" | test("(^| )--git( |$)")) else $git == "on" end) as $with_git
+  | (if $git == "" then ([.statusLine.command // "" | capture("(^| )(?<a>--git( [a-z,]+)?)( |$)").a] | first // "")
+     elif $git == "off" then "" else $git end) as $git_arg
   | .statusLine = $s.statusLine
-  | if $with_git then .statusLine.command += " --git" else . end
+  | if $git_arg != "" then .statusLine.command += " " + $git_arg else . end
   | if .hooks then .hooks |= (map_values(map(.hooks |= map(select(.command | IN($legacy[]) | not)))
                                         | map(select((.hooks | length) > 0))))
     else . end
@@ -140,10 +159,12 @@ else
   jq -n --slurpfile snip "$SNIPPET" --arg git "$GIT" "{} | $merge" > "$SETTINGS"
   ok "settings.json — created from snippet"
 fi
-if jq -e '.statusLine.command | test("(^| )--git( |$)")' "$SETTINGS" >/dev/null 2>&1; then
-  ok "git branch/worktree — shown (hide with: ./install.sh --no-git)"
+git_shown=$(jq -r '[.statusLine.command // "" | capture("(^| )--git( (?<p>[a-z,]+))?( |$)")
+  | .p // "repo,branch,worktree"] | first // "" | gsub(","; ", ")' "$SETTINGS" 2>/dev/null)
+if [ -n "$git_shown" ]; then
+  ok "git info — shows $git_shown (change: ./install.sh statusline --git [parts] | --no-git)"
 else
-  ok "git branch/worktree — hidden (show with: ./install.sh --git)"
+  ok "git info — hidden (show with: ./install.sh statusline --git [repo,branch,worktree])"
 fi
 
 [ -f "$CLAUDE_DIR/hooks/skill-load.sh" ] && mv "$CLAUDE_DIR/hooks/skill-load.sh" "$CLAUDE_DIR/hooks/skill-load.sh.bak.$STAMP" \
