@@ -6,7 +6,7 @@
 # LOMI_VERSION picks a release; LOMI_DIR picks the folder (default /Applications).
 set -eu
 
-VERSION="${LOMI_VERSION:-0.1.0}"
+VERSION="${LOMI_VERSION:-0.1.1}"
 DEST="${LOMI_DIR:-/Applications}"
 URL="https://github.com/endorphin-ai/hasbrains-agent-kit/releases/download/lomi-v${VERSION}/Lomi-macos-universal.zip"
 
@@ -26,8 +26,5 @@ ditto -x -k "$tmp/lomi.zip" "$tmp"
 pkill -x lomi 2>/dev/null || true
 rm -rf "$DEST/Lomi.app"
 mv "$tmp/Lomi.app" "$DEST/"
-# Lomi is not notarized by Apple; without this, macOS refuses to open it.
-xattr -dr com.apple.quarantine "$DEST/Lomi.app" 2>/dev/null || true
-
 open "$DEST/Lomi.app"
 echo "Lomi is installed in $DEST and running. Look for its face in the menu bar."

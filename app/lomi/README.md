@@ -25,7 +25,7 @@ curl -fsSL https://raw.githubusercontent.com/endorphin-ai/hasbrains-agent-kit/ma
 
 This downloads Lomi, puts it in `/Applications` and starts it. To update, run the same command again.
 
-You can also download `Lomi-macos-universal.zip` from [Releases](https://github.com/endorphin-ai/hasbrains-agent-kit/releases) by hand. Lomi is not notarized by Apple, so macOS then asks you to allow it in System Settings → Privacy & Security.
+You can also download `Lomi-macos-universal.zip` from [Releases](https://github.com/endorphin-ai/hasbrains-agent-kit/releases), unzip it and move `Lomi.app` to Applications. Lomi is signed and notarized by Apple.
 
 ## Run
 
