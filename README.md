@@ -60,6 +60,12 @@ cp -r teaching/skills/<skill-name> ~/.claude/skills/
 |---|---|
 | [`lomi`](app/lomi) | Claude Code usage in the macOS menu bar: usage limits, every open session, subagents and cost, with a character whose mood follows your limit. One-command install. |
 
+Install Lomi with [Homebrew](https://brew.sh):
+
+```bash
+brew install --cask endorphin-ai/tap/lomi
+```
+
 ## Using the prompts
 
 Raw prompt library lives in [`prompts/`](prompts) — standalone prompts that don't map to a skill or command. Prompts aren't installed, they're plain markdown; two ways to use one:
