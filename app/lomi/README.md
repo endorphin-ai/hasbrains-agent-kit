@@ -53,11 +53,9 @@ You can also start it from Spotlight: press Cmd + Space, type "Lomi", press Ente
 
 ### Start at every login
 
-1. Open **System Settings → General → Login Items & Extensions**.
-2. Under "Open at Login", click **+**.
-3. Choose **Lomi** from Applications.
+Open Lomi's **Settings** and turn on **Start Lomi when you log in**.
 
-Lomi then starts each time you log in and sits in the menu bar.
+Lomi then starts each time you log in and sits in the menu bar. You can also manage it in System Settings → General → Login Items & Extensions.
 
 ### Pin it to the Dock
 
@@ -90,7 +88,7 @@ Everything is in **Settings**:
 
 - **Per-model weekly limits**: turn "Fable this week" on or off. Read the note there first; this option uses your Claude login.
 - **Panels**: show or hide limits, sessions, command run and subagents.
-- **Display**: bar style, number of subagent rows, refresh interval, the character, animations.
+- **Display**: bar style, number of subagent rows, refresh interval, the character, animations, start at login.
 - **Git**: show or hide repository, branch and worktree.
 - **Prices**: USD per 1M tokens for each model. Lomi uses them to estimate subagent cost.
 - **Thresholds**: when a bar turns yellow or red.

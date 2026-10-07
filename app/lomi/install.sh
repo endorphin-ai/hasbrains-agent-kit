@@ -6,7 +6,7 @@
 # LOMI_VERSION picks a release; LOMI_DIR picks the folder (default /Applications).
 set -eu
 
-VERSION="${LOMI_VERSION:-0.1.3}"
+VERSION="${LOMI_VERSION:-0.1.4}"
 DEST="${LOMI_DIR:-/Applications}"
 URL="https://github.com/endorphin-ai/hasbrains-agent-kit/releases/download/lomi-v${VERSION}/Lomi-macos-universal.zip"
 
