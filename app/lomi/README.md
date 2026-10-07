@@ -58,6 +58,8 @@ Lomi has no Dock icon. Look for its face in the menu bar and click it.
 
 No status line script yet? Lomi still shows sessions and subagents, but as estimates and without limits.
 
+![Lomi in use: opening it from the menu bar, sessions, tabs and settings](docs/demo.gif)
+
 ## Go
 
 | To do this | Do this |
