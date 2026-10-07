@@ -33,6 +33,16 @@ curl -fsSL https://raw.githubusercontent.com/endorphin-ai/hasbrains-agent-kit/ma
 
 Both put Lomi in `/Applications`. Lomi is signed and notarized by Apple. You can also download `Lomi-macos-universal.zip` from [Releases](https://github.com/endorphin-ai/hasbrains-agent-kit/releases) by hand.
 
+### After you install: install the bridge
+
+Lomi shows no usage limits until you do this once.
+
+1. Start Lomi: `open /Applications/Lomi.app`. Its face appears in the menu bar.
+2. Click the Lomi icon, then **Settings**.
+3. Click **Install bridge**. If Claude Code has no status line yet, the button is **Set up the status line**.
+
+The bridge is one line in your Claude Code status line script; it gives Lomi live data. A backup of the script is kept.
+
 ## Update
 
 ```sh
@@ -59,12 +69,19 @@ Lomi then starts each time you log in and sits in the menu bar. You can also man
 
 ### Pin it to the Dock
 
-Open the Applications folder in Finder and drag **Lomi** onto the Dock. Clicking it starts Lomi. Because Lomi is a menu-bar app, the Dock icon does not show the "running" dot, and the window still opens from the menu bar icon.
+1. Open the **Applications** folder in Finder.
+2. Drag **Lomi** and drop it on the Dock. It stays there.
+
+Click the Dock icon to start Lomi. Because Lomi is a menu-bar app, the Dock icon does not show the "running" dot, and the window still opens from the menu bar icon.
+
+### Move it in the menu bar
+
+Hold **Cmd**, then drag the Lomi icon left or right along the menu bar and drop it where you want it.
 
 ## Verify
 
 1. Click the Lomi icon. The window opens under the menu bar.
-2. Open **Settings**. Click **Install bridge**, or **Set up the status line** if Claude Code has no status line yet. This gives Lomi live data: it adds one line to your status line script, or creates a small script for you. A backup is kept.
+2. Check that **Settings** shows "Bridge installed". If not, see [After you install](#after-you-install-install-the-bridge).
 3. Send a message in any Claude Code session.
 4. In a few seconds the session shows **live**, and the usage limits fill in. If it does not, open a new Claude Code session.
 
