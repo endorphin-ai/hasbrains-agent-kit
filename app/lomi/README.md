@@ -49,6 +49,20 @@ open /Applications/Lomi.app
 
 Lomi has no Dock icon. Look for its face in the menu bar and click it.
 
+You can also start it from Spotlight: press Cmd + Space, type "Lomi", press Enter.
+
+### Start at every login
+
+1. Open **System Settings → General → Login Items & Extensions**.
+2. Under "Open at Login", click **+**.
+3. Choose **Lomi** from Applications.
+
+Lomi then starts each time you log in and sits in the menu bar.
+
+### Pin it to the Dock
+
+Open the Applications folder in Finder and drag **Lomi** onto the Dock. Clicking it starts Lomi. Because Lomi is a menu-bar app, the Dock icon does not show the "running" dot, and the window still opens from the menu bar icon.
+
 ## Verify
 
 1. Click the Lomi icon. The window opens under the menu bar.
