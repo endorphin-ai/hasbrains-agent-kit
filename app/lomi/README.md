@@ -25,7 +25,7 @@ With [Homebrew](https://brew.sh):
 brew install --cask endorphin-ai/tap/lomi
 ```
 
-Without Homebrew (you also need `jq`):
+Without Homebrew:
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/endorphin-ai/hasbrains-agent-kit/main/app/lomi/install.sh | sh
@@ -52,11 +52,9 @@ Lomi has no Dock icon. Look for its face in the menu bar and click it.
 ## Verify
 
 1. Click the Lomi icon. The window opens under the menu bar.
-2. Open **Settings** and click **Install bridge**. This adds one line to your Claude Code status line script, so Lomi gets live data. A backup of the script is kept.
+2. Open **Settings**. Click **Install bridge**, or **Set up the status line** if Claude Code has no status line yet. This gives Lomi live data: it adds one line to your status line script, or creates a small script for you. A backup is kept.
 3. Send a message in any Claude Code session.
-4. In a few seconds the session shows **live**, and the usage limits fill in.
-
-No status line script yet? Lomi still shows sessions and subagents, but as estimates and without limits.
+4. In a few seconds the session shows **live**, and the usage limits fill in. If it does not, open a new Claude Code session.
 
 ![Lomi in use: opening it from the menu bar, sessions, tabs and settings](docs/demo.gif)
 
@@ -85,6 +83,12 @@ Everything is in **Settings**:
 
 ## Remove
 
-Open **Settings**, click **Remove bridge**, and quit Lomi. Then run `brew uninstall --cask lomi`, or delete `/Applications/Lomi.app`.
+```sh
+curl -fsSL https://raw.githubusercontent.com/endorphin-ai/hasbrains-agent-kit/main/app/lomi/uninstall.sh | sh
+```
+
+This quits Lomi, deletes the app, its settings and saved data, and takes the bridge line out of your status line script. If Lomi created your status line, that small script stays; it only shows the model name.
+
+By hand: quit Lomi (right-click its menu bar icon), then drag `Lomi.app` from the Applications folder to the Trash.
 
 Made with ♥ by [HasBrains](https://hasbrains.com/).
