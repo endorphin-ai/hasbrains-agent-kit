@@ -62,6 +62,8 @@ total=$(( ${input_tok:-0} + ${cache_create:-0} + ${cache_read:-0} ))
 # counts cache/tokens 2-5x over. Dedupe by message.id first — keep the final
 # snapshot per id (max output_tokens) — then sum.
 prices_file="${CLAUDE_STATUSLINE_PRICES:-$HOME/.claude/statusline-prices.json}"
+# Installed as a plugin there is no copy in ~/.claude: use the table shipped beside the hooks.
+[ -f "$prices_file" ] || prices_file="$(dirname "${BASH_SOURCE[0]}")/../prices.json"
 prices_json=$(jq -c . "$prices_file" 2>/dev/null); [ -n "$prices_json" ] || prices_json='{}'   # no price file → $0.00
 priced=$(grep '"type":"assistant"' "$transcript_path" 2>/dev/null | jq -s -r --argjson p "$prices_json" '
   def rate($id):
@@ -237,5 +239,5 @@ upd=$(jq --argjson r "$row" '.agents = ([.agents[]? | select(.agent_id != $r.age
 rmdir "$run_dir/.lock-$sid" 2>/dev/null
 
 # Re-check whether the run is complete and refresh its report.
-bash "$HOME/.claude/hooks/stop.sh" --refresh "$target" "$sid" </dev/null
+bash "$(dirname "${BASH_SOURCE[0]}")/stop.sh" --refresh "$target" "$sid" </dev/null
 exit 0

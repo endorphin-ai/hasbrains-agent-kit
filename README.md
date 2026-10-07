@@ -18,6 +18,8 @@ Then install only what you need:
 /plugin install content-creation@hasbrains-agent-kit
 /plugin install teaching@hasbrains-agent-kit
 /plugin install web-dev@hasbrains-agent-kit
+/plugin install statusline-kit@hasbrains-agent-kit
+/plugin install writing-styles@hasbrains-agent-kit
 ```
 
 ## Install a single skill
@@ -61,26 +63,41 @@ Raw prompt library lives in [`prompts/`](prompts) — standalone prompts that do
 
 ## Using the output styles
 
-Output styles live in [`output-styles/`](output-styles) — they change how Claude Code writes, not what it does. Copy one into your styles folder and select it:
+Output styles change how Claude Code writes, not what it does. They ship as the `writing-styles` plugin:
 
 ```
-cp output-styles/asd-ste100.md ~/.claude/output-styles/
+/plugin install writing-styles@hasbrains-agent-kit
 ```
 
-Then run `/output-style` and pick it, or `/output-style asd-ste100`. Drop the file into a project's `.claude/output-styles/` instead to scope it to that repo.
+Then run `/output-style` and pick one. Without the plugin, copy a file yourself:
+
+```
+cp writing-styles/output-styles/asd-ste100.md ~/.claude/output-styles/
+```
+
+Drop the file into a project's `.claude/output-styles/` instead to scope it to that repo.
 
 | Style | What it does |
 |---|---|
-| [`asd-ste100`](output-styles/asd-ste100.md) | Concise, direct, technical writing based on ASD-STE100 Simplified Technical English. Result first, one idea per sentence, no filler or marketing language. Keeps coding instructions intact. |
+| [`asd-ste100`](writing-styles/output-styles/asd-ste100.md) | Concise, direct, technical writing based on ASD-STE100 Simplified Technical English. Result first, one idea per sentence, no filler or marketing language. Keeps coding instructions intact. |
 
 ## Using the utils
 
-Utils live in [`utils/`](utils) — standalone tools for your Claude Code setup, not plugins. Each has its own installer:
+Utils live in [`utils/`](utils) — tools for your Claude Code setup. `statusline-kit` installs as a plugin:
+
+```
+/plugin install statusline-kit@hasbrains-agent-kit
+/statusline-kit:setup
+```
+
+The second command switches the status line on: a plugin can ship the hooks, but Claude Code reads the status line itself only from your own settings. Or install it without the plugin system:
 
 ```
 git clone --depth 1 https://github.com/endorphin-ai/hasbrains-agent-kit.git
 cd hasbrains-agent-kit/utils/statusline-kit && ./install.sh
 ```
+
+Use one way or the other, not both: both install the same hooks, and every run would be recorded twice.
 
 | Util | What it does |
 |---|---|

@@ -37,6 +37,18 @@
       "source": "./web-dev",
       "description": "Multi-agent web dev pipeline — UX research and design critique around the build, plus the designer ↔ frontend contract: freeze approved mockups into a canonical oracle, port them 1:1 on any stack, and verify with screenshot-based design-diff gates.",
       "category": "development"
+    },
+    {
+      "name": "statusline-kit",
+      "source": "./utils/statusline-kit",
+      "description": "Live status line and agent telemetry — the active /command or skill run with a timer, per-subagent context bar, model, estimated cost, tokens, duration and tool count, plus a per-run report. Run /statusline-kit:setup once to switch the status line on.",
+      "category": "productivity"
+    },
+    {
+      "name": "writing-styles",
+      "source": "./writing-styles",
+      "description": "Output styles that change how Claude Code writes, not what it does. Ships ASD-STE100: concise, direct, technical writing based on Simplified Technical English.",
+      "category": "productivity"
     }
   ]
 }

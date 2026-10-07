@@ -55,7 +55,7 @@ case "$tool" in
       rmdir "$lock" 2>/dev/null
     else
       # No open run: archive the finished one, then this skill starts a new run.
-      [ -f "$active" ] && bash "$HOME/.claude/hooks/stop.sh" --refresh "$active" "$sid" </dev/null
+      [ -f "$active" ] && bash "$(dirname "${BASH_SOURCE[0]}")/stop.sh" --refresh "$active" "$sid" </dev/null
       take_lock
       [ -f "$active" ] && mv -f "$active" "$run_dir/prev-$sid.json"
       new=$(jq -n --arg c "$skill" --arg cwd "$cwd" --argjson s "$now" --arg si "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
