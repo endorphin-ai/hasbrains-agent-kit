@@ -1,0 +1,9 @@
+{
+  "name": "writing-styles",
+  "version": "1.0.0",
+  "description": "Output styles for Claude Code — they change how Claude writes, not what it does. Ships ASD-STE100: concise, direct, technical writing based on Simplified Technical English.",
+  "author": { "name": "Andrew Novykov", "url": "https://github.com/andrewnovykov" },
+  "repository": "https://github.com/endorphin-ai/hasbrains-agent-kit",
+  "license": "MIT",
+  "keywords": ["claude-code", "output-styles", "writing", "technical-writing", "asd-ste100"]
+}

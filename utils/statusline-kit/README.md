@@ -47,6 +47,18 @@ It also writes a per-run report (`~/.claude/runs/<command>-<stamp>.json` + `.md`
   `runs/prev-<session>.json`, and its late agents still land in it (matched by the launching tool call).
 - Launches with no finish after 2 hours are treated as lost, so a run can't stay open forever.
 
+## Install as a plugin
+
+```
+/plugin marketplace add endorphin-ai/hasbrains-agent-kit
+/plugin install statusline-kit@hasbrains-agent-kit
+/statusline-kit:setup
+```
+
+The plugin ships the four hooks and the price table. `/statusline-kit:setup` adds the `statusLine`
+entry to your `~/.claude/settings.json` (a plugin cannot set it for you) and asks which git
+information to show. Do not also run `install.sh` below: the hooks would run twice.
+
 ## Install
 
 Needs `jq` (`brew install jq` or `apt install jq`). Then:

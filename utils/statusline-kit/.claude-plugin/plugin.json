@@ -1,0 +1,9 @@
+{
+  "name": "statusline-kit",
+  "version": "1.0.0",
+  "description": "Live status line and agent telemetry for Claude Code — the active /command or skill run with a timer, per-subagent context bar, model, estimated cost, tokens, duration and tool count, plus a per-run report.",
+  "author": { "name": "Andrew Novykov", "url": "https://github.com/andrewnovykov" },
+  "repository": "https://github.com/endorphin-ai/hasbrains-agent-kit",
+  "license": "MIT",
+  "keywords": ["claude-code", "statusline", "telemetry", "subagents", "cost", "hooks"]
+}

@@ -30,7 +30,7 @@ now_iso=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 put() { local t="$1.tmp.$$"; printf '%s\n' "$2" > "$t" && mv -f "$t" "$1"; }
 # Never lose the previous run: finalize it (writes its report) and keep it as
 # prev-<sid>.json, so its agents that are still running land in it when done.
-[ -f "$active" ] && bash "$HOME/.claude/hooks/stop.sh" --refresh "$active" "$sid" </dev/null
+[ -f "$active" ] && bash "$(dirname "${BASH_SOURCE[0]}")/stop.sh" --refresh "$active" "$sid" </dev/null
 
 # Atomic-ish lock (macOS has no flock): mkdir succeeds for exactly one writer.
 lock="$run_dir/.lock-$sid"
