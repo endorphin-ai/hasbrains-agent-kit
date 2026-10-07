@@ -52,6 +52,12 @@ cp -r teaching/skills/<skill-name> ~/.claude/skills/
 | [`teaching`](teaching) | Interactive AI teacher. `/repo-to-course` turns any codebase into a structured tutorial course — markdown, GitHub Pages site, or interactive HTML. |
 | [`web-dev`](web-dev) | Multi-agent web dev pipeline. UX research and design critique around the build (personas, storyboards, heuristics, measured design forensics), plus the designer ↔ frontend contract: freeze approved mockups into a canonical oracle, port them 1:1 on any stack, verify with screenshot-based design-diff gates. |
 
+## Apps
+
+| App | What it does |
+|---|---|
+| [`lomi`](app/lomi) | Claude Code usage in the macOS menu bar: usage limits, every open session, subagents and cost, with a character whose mood follows your limit. One-command install. |
+
 ## Using the prompts
 
 Raw prompt library lives in [`prompts/`](prompts) — standalone prompts that don't map to a skill or command. Prompts aren't installed, they're plain markdown; two ways to use one:
