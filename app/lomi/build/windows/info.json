@@ -1,0 +1,15 @@
+{
+	"fixed": {
+		"file_version": "0.0.1"
+	},
+	"info": {
+		"0000": {
+			"ProductVersion": "0.0.1",
+			"CompanyName": "HasBrains",
+			"FileDescription": "The Claude Code status line as a desktop window",
+			"LegalCopyright": "(c) 2026, HasBrains",
+			"ProductName": "Lomi",
+			"Comments": "This is a comment"
+		}
+	}
+}

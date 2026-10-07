@@ -1,0 +1,111 @@
+/* Colours follow the ANSI palette of the Claude Code status line script. */
+:root {
+  --bg: #111217;
+  --line: #24262e;
+  --track: #2a2c35;
+  --text: #d6d7dc;
+  --dim: #8a8a8a;    /* 245 */
+  --model: #afafff;  /* 147 */
+  --green: #5fd787;  /* 78 */
+  --yellow: #ffd75f; /* 221 */
+  --red: #ff5f5f;    /* 203 */
+  --cost: #d7af5f;   /* 179 */
+  --cmd: #ffaf5f;    /* 215 */
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font: 13px/1.45 ui-monospace, "SF Mono", Menlo, Monaco, monospace;
+  overflow: hidden;
+}
+
+.dim {
+  color: var(--dim);
+}
+
+button, input, select {
+  font: inherit;
+  color: var(--text);
+  background: #1b1d24;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 3px 9px;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:hover:not(:disabled) {
+  border-color: var(--dim);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+button.primary {
+  background: var(--model);
+  border-color: var(--model);
+  color: #14151b;
+  font-weight: 600;
+}
+
+button.ghost {
+  background: transparent;
+  border-color: transparent;
+  color: var(--dim);
+}
+
+button.ghost:hover:not(:disabled) {
+  color: var(--text);
+}
+
+button.link {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--model);
+  text-decoration: underline;
+}
+
+:focus-visible {
+  outline: 2px solid var(--model);
+  outline-offset: 1px;
+}
+
+input[type="checkbox"] {
+  accent-color: var(--model);
+  padding: 0;
+}
+
+/* Thin scrollbars that match the dark window. */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #343743;
+  border-radius: 99px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--dim);
+}

@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Name=Lomi
+Comment=The Claude Code status line as a desktop window
+# The Exec line includes %u to pass the URL to the application
+Exec=/usr/local/bin/lomi %u
+Terminal=false
+Type=Application
+Icon=lomi
+Categories=Utility;
+StartupWMClass=lomi
+
+ 
