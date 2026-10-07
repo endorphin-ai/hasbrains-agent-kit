@@ -17,15 +17,29 @@ Lomi reads Claude Code's own files on your Mac. It does not change your sessions
 
 ## Install
 
-You need macOS (Apple Silicon or Intel), [Claude Code](https://claude.com/claude-code) and `jq`.
+You need macOS 12 or later (Apple Silicon or Intel) and [Claude Code](https://claude.com/claude-code).
+
+With [Homebrew](https://brew.sh):
+
+```sh
+brew install --cask endorphin-ai/tap/lomi
+```
+
+Without Homebrew (you also need `jq`):
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/endorphin-ai/hasbrains-agent-kit/main/app/lomi/install.sh | sh
 ```
 
-This downloads Lomi, puts it in `/Applications` and starts it. To update, run the same command again.
+Both put Lomi in `/Applications`. Lomi is signed and notarized by Apple. You can also download `Lomi-macos-universal.zip` from [Releases](https://github.com/endorphin-ai/hasbrains-agent-kit/releases) by hand.
 
-You can also download `Lomi-macos-universal.zip` from [Releases](https://github.com/endorphin-ai/hasbrains-agent-kit/releases), unzip it and move `Lomi.app` to Applications. Lomi is signed and notarized by Apple.
+## Update
+
+```sh
+brew upgrade --cask lomi
+```
+
+Without Homebrew, run the `curl` install command again.
 
 ## Run
 
@@ -69,6 +83,6 @@ Everything is in **Settings**:
 
 ## Remove
 
-Open **Settings**, click **Remove bridge**, quit Lomi, then delete `/Applications/Lomi.app`.
+Open **Settings**, click **Remove bridge**, and quit Lomi. Then run `brew uninstall --cask lomi`, or delete `/Applications/Lomi.app`.
 
 Made with ♥ by [HasBrains](https://hasbrains.com/).
